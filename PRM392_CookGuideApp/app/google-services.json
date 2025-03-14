@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "476565410410",
+    "firebase_url": "https://prm392-dotai-default-rtdb.firebaseio.com/",
+    "project_id": "prm392-dotai",
+    "storage_bucket": "prm392-dotai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476565410410:android:02915e0c6771f77f117013",
+        "android_client_info": {
+          "package_name": "com.app.cookbook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANousWvh1IZtcdSgebXNV3AyDXD3Wo2UE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
