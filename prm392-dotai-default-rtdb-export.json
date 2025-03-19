@@ -1,0 +1,411 @@
+{
+  "locations": [
+    null,
+    {
+      "id": 1,
+      "image": "https://ktmt.vnmediacdn.com/images/2023/01/23/51-1674468322-mot-goc-ha-noi-nhin-tu-tren-cao.jpg",
+      "name": "Hà Nội"
+    },
+    {
+      "id": 2,
+      "image": "https://drt.danang.vn/content/images/size/w1024/2024/09/pho-co-hoi-an-9.jpg",
+      "name": "Hội An"
+    },
+    {
+      "id": 3,
+      "image": "https://cdnen.thesaigontimes.vn/wp-content/uploads/2023/04/An-aerial-view-of-the-glittering-coastal-city-of-Nha-Trang.jpg",
+      "name": "Nha Trang"
+    },
+    {
+      "id": 4,
+      "image": "https://ticotravel.com.vn/wp-content/uploads/2023/09/da-lat-thang-12-1.jpg",
+      "name": "Đà Lạt"
+    },
+    {
+      "id": 5,
+      "image": "https://vietnamdailytour.vn/wp-content/uploads/2022/08/cau-rong-da-nang.jpg",
+      "name": "Đà Nẵng"
+    }
+  ],
+  "feedback": {
+    "1712981404661": {
+      "comment": "App hoat dong rat tot !!!",
+      "email": "test@gmail.com",
+      "name": "Nguyen Dang Tin",
+      "phone": "0986898689"
+    },
+    "1717664598572": {
+      "comment": "Huong dan rat chi tiet !!!",
+      "email": "test@gmail.com",
+      "name": "Nguyen Thi Xuan",
+      "phone": "0978787878"
+    }
+  },
+  "hotels": [
+    null,
+    {
+      "locationId": 1,
+      "locationName": "Hà Nội",
+      "count": 2,
+      "favorite": {
+        "1721749224732": {
+          "emailUser": "test@gmail.com",
+          "id": 1721749224732
+        }
+      },
+      "featured": true,
+      "history": {
+        "1717752925748": {
+          "emailUser": "test@gmail.com",
+          "id": 1717752925748
+        }
+      },
+      "id": 1,
+      "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/6a/b0/11/apricot-hotel.jpg?w=700&h=-1&s=1",
+      "name": "JW Marriott Hotel Hanoi"
+    },
+    {
+      "locationId": 1,
+      "locationName": "Hà Nội",
+      "count": 2,
+      "favorite": {
+        "1721749224732": {
+          "emailUser": "test@gmail.com",
+          "id": 1721749224732
+        }
+      },
+      "featured": true,
+      "history": {
+        "1717752925748": {
+          "emailUser": "test@gmail.com",
+          "id": 1717752925748
+        }
+      },
+      "id": 2,
+      "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/a0/b5/98/hotel-exterior-golden.jpg?w=700&h=-1&s=1",
+      "name": "InterContinental Hanoi Landmark72"
+    },
+    {
+      "locationId": 1,
+      "locationName": "Hà Nội",
+      "count": 2,
+      "favorite": {
+        "1721749224732": {
+          "emailUser": "test@gmail.com",
+          "id": 1721749224732
+        }
+      },
+      "featured": true,
+      "history": {
+        "1717752925748": {
+          "emailUser": "test@gmail.com",
+          "id": 1717752925748
+        }
+      },
+      "id": 3,
+      "image": "https://m.ahstatic.com/is/image/accorhotels/aja_p_4038-37:4by3?fmt=jpg&op_usm=1.75,0.3,2,0&resMode=sharp2&iccEmbed=true&icc=sRGB&dpr=on,1.5&wid=335&hei=251&qlt=80",
+      "name": "Sofitel Legend Metropole Hanoi"
+    },
+    {
+      "locationId": 1,
+      "locationName": "Hà Nội",
+      "count": 2,
+      "favorite": {
+        "1721749224732": {
+          "emailUser": "test@gmail.com",
+          "id": 1721749224732
+        }
+      },
+      "featured": true,
+      "history": {
+        "1717752925748": {
+          "emailUser": "test@gmail.com",
+          "id": 1717752925748
+        }
+      },
+      "id": 4,
+      "image": "https://z.cdrst.com/foto/hotel-sf/ec9a/granderesp/melia-hanoi-exterior-12065dbe.jpg",
+      "name": "Melia Hanoi"
+    },
+    {
+      "locationId": 5,
+      "locationName": "Đà Nẵng",
+      "count": 2,
+      "id": 5,
+      "image": "https://khachsandanang.shop/uploads/images/images/suite-grand.jpg",
+      "name": "Novotel Danang"
+    },
+    {
+      "locationId": 5,
+      "locationName": "Đà Nẵng",
+      "count": 2,
+      "id": 6,
+      "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/6a/b0/bc/located-on-the-29th-floor.jpg?w=700&h=-1&s=1",
+      "name": "Danang Golden Bay"
+    },
+    {
+      "locationId": 5,
+      "locationName": "Đà Nẵng",
+      "count": 2,
+      "id": 7,
+      "image": "https://pix10.agoda.net/hotelImages/2090182/-1/44786f53b6b9e0331f138989fd9263d4.jpg?ca=9&ce=1&s=414x232",
+      "name": "La Siesta Hoi An Resort"
+    },
+    {
+      "locationId": 5,
+      "locationName": "Đà Nẵng",
+      "count": 2,
+      "id": 8,
+      "image": "https://owa.bestprice.vn/images/hotels/430_242/allegro-hoi-an-62d0d88590e4f.jpg",
+      "name": "Allegro Hoi An"
+    },
+    {
+      "locationId": 3,
+      "locationName": "Nha Trang",
+      "count": 2,
+      "id": 9,
+      "name": "InterContinental Nha Trang",
+      "image": "https://katahome.com/wp-content/uploads/2018/12/khach-san-intercontinental-nha-trang-5.jpg"
+    },
+    {
+      "locationId": 3,
+      "locationName": "Nha Trang",
+      "count": 2,
+      "id": 10,
+      "name": "Mia Resort Nha Trang",
+      "image": "https://cf.bstatic.com/xdata/images/hotel/max1024x768/256389120.jpg?k=0ce975a5c466e9421eef9015c1174b97daed119bd3f6f26eafbc87532830033d&o=&hp=1"
+    },
+    {
+      "locationId": 3,
+      "locationName": "Nha Trang",
+      "count": 2,
+      "id": 11,
+      "name": "Vinpearl Resort Nha Trang",
+      "image": "https://pix10.agoda.net/hotelImages/65153/-1/488cb9d3c31d0e59ef78f8f6212890aa.jpg?ce=0&s=414x232"
+    },
+    {
+      "locationId": 3,
+      "locationName": "Nha Trang",
+      "count": 2,
+      "id": 12,
+      "name": "Amiana Resort Nha Trang",
+      "image": "https://reviewvilla.vn/wp-content/uploads/2022/01/amiana-resort-2.jpg"
+    },
+    {
+      "locationId": 4,
+      "locationName": "Đà Lạt",
+      "count": 2,
+      "id": 13,
+      "name": "Ana Mandara Villas Dalat",
+      "image": "https://www.anamandara-resort.com/wp-content/uploads/sites/233/2022/07/DJI_0670-2200x1200.jpg"
+    },
+    {
+      "locationId": 4,
+      "locationName": "Đà Lạt",
+      "count": 2,
+      "id": 14,
+      "name": "Dalat Palace Heritage Hotel",
+      "image": "https://cf.bstatic.com/xdata/images/hotel/max1024x768/247303484.jpg?k=08a3ee454f7657195b02eee4de1506cb2d82a3fedf9f3913149b7c8ac7f0b59b&o=&hp=1"
+    },
+    {
+      "locationId": 4,
+      "locationName": "Đà Lạt",
+      "count": 2,
+      "id": 15,
+      "name": "Swiss-BelResort Tuyen Lam Dalat",
+      "image": "https://cf.bstatic.com/xdata/images/hotel/max1024x768/345964991.jpg?k=8f3a4715c4ae61b980024571017e01f6588a401dbf226aa43bcb42f1d80b68e7&o=&hp=1"
+    },
+    {
+      "locationId": 4,
+      "locationName": "Đà Lạt",
+      "count": 2,
+      "id": 16,
+      "name": "Terracotta Hotel & Resort Dalat",
+      "image": "https://angialand.com.vn/wp-content/uploads/2021/08/phoi-canh-resort-terracotta-hotel-resort-dalat-da-lat-94-bui-thi-xuan-phuong-3-tp-da-lat-5.jpg"
+    },
+    {
+      "locationId": 2,
+      "locationName": "Hội An",
+      "count": 2,
+      "id": 17,
+      "name": "La Siesta Hoi An Resort",
+      "image": "https://pix10.agoda.net/hotelImages/2090182/-1/44786f53b6b9e0331f138989fd9263d4.jpg?ca=9&ce=1&s=414x232"
+    },
+    {
+      "locationId": 2,
+      "locationName": "Hội An",
+      "count": 2,
+      "id": 18,
+      "name": "Allegro Hoi An",
+      "image": "https://owa.bestprice.vn/images/hotels/430_242/allegro-hoi-an-62d0d88590e4f.jpg"
+    },
+    {
+      "locationId": 2,
+      "locationName": "Hội An",
+      "count": 2,
+      "id": 19,
+      "name": "An Bang Beach Hideaway Homestay",
+      "image": "https://cdn3.ivivu.com/2017/02/an-bang-Garden-Homestay-ivivu-1-370x215.jpg"
+    },
+    {
+      "locationId": 2,
+      "locationName": "Hội An",
+      "count": 2,
+      "id": 20,
+      "name": "Aira Boutique Hoi An Hotel & Villa",
+      "image": "https://cf.bstatic.com/xdata/images/hotel/max1024x768/174956794.jpg?k=d52ed690ad9e38e62b59be9137ec2bf5823808397a4b0c1432b85020ff59f0b8&o=&hp=1"
+    }
+  ],
+  "destinations": [
+    null,
+    {
+      "locationId": 1,
+      "locationName": "Hà Nội",
+      "count": 2,
+      "favorite": {
+        "1721749224732": {
+          "emailUser": "test@gmail.com",
+          "id": 1721749224732
+        }
+      },
+      "featured": true,
+      "history": {
+        "1717752925748": {
+          "emailUser": "test@gmail.com",
+          "id": 1717752925748
+        }
+      },
+      "id": 1,
+      "image": "https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/04/anh-ha-noi.jpg",
+      "name": "Hồ Hoàn Kiếm",
+      "url": "https://vinpearl.com/vi/ho-hoan-kiem-ha-noi"
+    },
+    {
+      "locationId": 1,
+      "locationName": "Hà Nội",
+      "count": 2,
+      "favorite": {
+        "1721749224732": {
+          "emailUser": "test@gmail.com",
+          "id": 1721749224732
+        }
+      },
+      "id": 2,
+      "image": "https://i2.ex-cdn.com/crystalbay.com/files/content/2024/08/30/van-mieu-quoc-tu-giam-1-1012.jpg",
+      "name": "Văn Miếu - Quốc Tử Giám",
+      "url": "http://vanmieu.gov.vn/vi/"
+    },
+    {
+      "locationId": 5,
+      "locationName": "Đà Nẵng",
+      "id": 3,
+      "image": "https://vcdn1-dulich.vnecdn.net/2022/06/03/cauvang-1654247842-9403-1654247849.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=Swd6JjpStebEzT6WARcoOA",
+      "name": "Cầu Rồng",
+      "url": "https://www.pullman-danang.com/vi/kham-pha/kham-pha/cau-rong-thanh-pho-da-nang/"
+    },
+    {
+      "locationId": 5,
+      "locationName": "Đà Nẵng",
+      "id": 4,
+      "image": "https://duan-sungroup.com/wp-content/uploads/2022/10/khu-vuon-co-tich-giua-long-da-nang-e1665823875574.png",
+      "name": "Bà Nà Hills",
+      "url": "https://banahills.sunworld.vn/"
+    },
+    {
+      "locationId": 2,
+      "locationName": "Hội An",
+      "featured": true,
+      "id": 5,
+      "image": "https://vietnam.travel/sites/default/files/inline-images/shutterstock_204451897.jpg",
+      "name": "Phố Cổ Hội An",
+      "url": "https://vinpearl.com/vi/du-lich-pho-co-hoi-an-review-day-du-va-chi-tiet-tu-a-z"
+    },
+    {
+      "locationId": 2,
+      "locationName": "Hội An",
+      "featured": true,
+      "id": 6,
+      "image": "https://static.vinwonders.com/2022/03/bien-an-bang-anh-thumb.jpg",
+      "name": "An Bàng Beach",
+      "url": "https://www.traveloka.com/vi-vn/explore/destination/bien-an-bang-acc/218278"
+    },
+    {
+      "locationId": 3,
+      "locationName": "Nha Trang",
+      "id": 7,
+      "image": "https://puolotrip.com/uploads/images/2023/09/Bien-nha-trang-2-jpg.webp",
+      "name": "Biển Nha Trang",
+      "url": "https://vinpearl.com/vi/nha-trang"
+    },
+    {
+      "locationId": 3,
+      "locationName": "Nha Trang",
+      "id": 8,
+      "image": "https://image.vietgoing.com/editor/image_sgu1637891910.jpg",
+      "name": "Vinpearl Land Nha Trang",
+      "url": "https://nhatrang-tourist.com/vinpearl-land/page/2/"
+    },
+    {
+      "locationId": 4,
+      "locationName": "Đà Lạt",
+      "id": 9,
+      "image": "https://static.vinwonders.com/production/thung-lung-tinh-yeu-1.jpg",
+      "name": "Thung Lũng Tình Yêu",
+      "url": "https://vinpearl.com/vi/thung-lung-tinh-yeu"
+    },
+    {
+      "locationId": 4,
+      "locationName": "Đà Lạt",
+      "count": 1,
+      "history": {
+        "1718617646801": {
+          "emailUser": "test@gmail.com",
+          "id": 1718617646801
+        }
+      },
+      "id": 10,
+      "image": "https://freshdalat.vn/wp-content/uploads/2023/09/gioi-thieu-ve-ho-xuan-huong-o-da-lat.jpg",
+      "name": "Hồ Xuân Hương",
+      "url": "https://www.traveloka.com/vi-vn/explore/destination/ho-xuan-huong-da-lat-acc/209218"
+    }
+  ],
+  "request": {
+    "1723569359778": {
+      "completed": true,
+      "content": "Sườn xào chua ngọt",
+      "id": 1723569359778
+    },
+    "1723569376152": {
+      "completed": false,
+      "content": "Bò sốt tiêu đen",
+      "id": 1723569376152
+    },
+    "1723569387565": {
+      "completed": true,
+      "content": "Gà hầm thuốc bắc",
+      "id": 1723569387565
+    },
+    "1723569405913": {
+      "completed": false,
+      "content": "Lườn ngỗng hun khói",
+      "id": 1723569405913
+    },
+    "1723569426765": {
+      "completed": true,
+      "content": "Canh măng chua cay",
+      "id": 1723569426765
+    }
+  },
+  "user": {
+    "-OL8iN6tXuj09hi9r81L": {
+      "admin": false,
+      "email": "thinhlam240499@gmail.com",
+      "password": "123456"
+    },
+    "SplTmDiAVZNiatTd2Mmd5omhcDX2": {
+      "admin": false,
+      "email": "thinhlam240499@gmail.com",
+      "password": "123456"
+    }
+  }
+}

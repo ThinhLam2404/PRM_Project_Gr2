@@ -27,7 +27,7 @@
     <string name="hint_password_old">Vui lòng nhập mật khẩu cũ…</string>
     <string name="hint_password_new">Vui lòng nhập mật khẩu mới…</string>
     <string name="hint_password_confirm">Vui lòng xác nhận mật khẩu mới…</string>
-    <string name="hint_food_name">Tên khách sạn hoặc địa điểm</string>
+    <string name="hint_food_name">Tên địa điểm hoặc địa danh</string>
     <string name="hint_rating_review">Hãy cho chúng tôi biết đánh giá của bạn</string>
     <string name="hint_search_category">Tên thể loại…</string>
 

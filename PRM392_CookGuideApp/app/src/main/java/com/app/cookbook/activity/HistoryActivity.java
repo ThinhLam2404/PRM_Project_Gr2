@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.app.cookbook.MyApplication;
 import com.app.cookbook.R;
-import com.app.cookbook.adapter.FoodAdapter;
+import com.app.cookbook.adapter.DestinationAdapter;
 import com.app.cookbook.constant.GlobalFunction;
 import com.app.cookbook.databinding.ActivityHistoryBinding;
-import com.app.cookbook.listener.IOnClickFoodListener;
-import com.app.cookbook.model.Location;
 import com.app.cookbook.model.Destination;
 import com.app.cookbook.utils.LocaleHelper;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +25,7 @@ public class HistoryActivity extends BaseActivity {
 
     private ActivityHistoryBinding mBinding;
     private List<Destination> mListDestination;
-    private FoodAdapter mFoodAdapter;
+    private DestinationAdapter mDestinationAdapter;
     private ValueEventListener mValueEventListener;
 
     @Override
@@ -56,23 +54,23 @@ public class HistoryActivity extends BaseActivity {
         mBinding.rcvData.setLayoutManager(linearLayoutManager);
 
         mListDestination = new ArrayList<>();
-        mFoodAdapter = new FoodAdapter(mListDestination, new IOnClickFoodListener() {
-            @Override
-            public void onClickItemFood(Destination destination) {
-                GlobalFunction.goToFoodDetail(HistoryActivity.this, destination.getId());
-            }
-
-            @Override
-            public void onClickFavoriteFood(Destination destination, boolean favorite) {
-                GlobalFunction.onClickFavoriteFood(HistoryActivity.this, destination, favorite);
-            }
-
-            @Override
-            public void onClickCategoryOfFood(Location location) {
-                GlobalFunction.goToFoodByCategory(HistoryActivity.this, location);
-            }
-        });
-        mBinding.rcvData.setAdapter(mFoodAdapter);
+//        mDestinationAdapter = new DestinationAdapter(mListDestination, new IOnClickDestinationListener() {
+//            @Override
+//            public void onClickItemDestination(Destination destination) {
+//                GlobalFunction.goToDestinationDetail(HistoryActivity.this, destination.getId());
+//            }
+//
+//            @Override
+//            public void onClickFavoriteDestination(Destination destination, boolean favorite) {
+//                GlobalFunction.onClickFavoriteDestination(HistoryActivity.this, destination, favorite);
+//            }
+//
+//            @Override
+//            public void onClickLocationOfDestination(Location location) {
+//                GlobalFunction.goToDestinationByLocation(HistoryActivity.this, location);
+//            }
+//        });
+        mBinding.rcvData.setAdapter(mDestinationAdapter);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -88,7 +86,7 @@ public class HistoryActivity extends BaseActivity {
                         mListDestination.add(0, destination);
                     }
                 }
-                if (mFoodAdapter != null) mFoodAdapter.notifyDataSetChanged();
+                if (mDestinationAdapter != null) mDestinationAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -97,7 +95,7 @@ public class HistoryActivity extends BaseActivity {
                         getString(R.string.msg_get_date_error));
             }
         };
-        MyApplication.get(this).foodDatabaseReference().addValueEventListener(mValueEventListener);
+        MyApplication.get(this).destinationDatabaseReference().addValueEventListener(mValueEventListener);
     }
 
     private void resetListData() {
@@ -112,7 +110,7 @@ public class HistoryActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mValueEventListener != null) {
-            MyApplication.get(this).foodDatabaseReference().removeEventListener(mValueEventListener);
+            MyApplication.get(this).destinationDatabaseReference().removeEventListener(mValueEventListener);
         }
     }
 }

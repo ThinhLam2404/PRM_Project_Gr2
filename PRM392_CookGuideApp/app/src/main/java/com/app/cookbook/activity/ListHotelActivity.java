@@ -1,6 +1,7 @@
 package com.app.cookbook.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -11,7 +12,7 @@ import com.app.cookbook.MyApplication;
 import com.app.cookbook.R;
 import com.app.cookbook.adapter.HotelAdapter;
 import com.app.cookbook.constant.GlobalFunction;
-import com.app.cookbook.databinding.ActivityFavoriteBinding;
+import com.app.cookbook.databinding.ActivityListHotelBinding;
 import com.app.cookbook.listener.IOnClickHotelListener;
 import com.app.cookbook.model.Hotel;
 import com.app.cookbook.model.Location;
@@ -21,14 +22,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class FavoriteActivity extends BaseActivity {
+public class ListHotelActivity extends BaseActivity {
 
-    private ActivityFavoriteBinding mBinding;
-    private List<Hotel> mListHotel;
+    private ActivityListHotelBinding mBinding;
     private HotelAdapter mHotelAdapter;
-    private ValueEventListener mValueEventListener;
+    private List<Hotel> mListHotel;
+    private ValueEventListener mFoodValueEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,69 +40,71 @@ public class FavoriteActivity extends BaseActivity {
         LocaleHelper.setLocale(this, languageCode);
 
         super.onCreate(savedInstanceState);
-        mBinding = ActivityFavoriteBinding.inflate(getLayoutInflater());
+        mBinding = ActivityListHotelBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
         initToolbar();
-        initUi();
-        loadDataFavorite();
+        initView();
+        loadListFoodFromFirebase();
     }
 
     private void initToolbar() {
         mBinding.layoutToolbar.imgToolbar.setOnClickListener(view -> finish());
-        mBinding.layoutToolbar.tvToolbarTitle.setText(getString(R.string.label_favorite));
+        mBinding.layoutToolbar.tvToolbarTitle.setText(getString(R.string.label_food_popular));
     }
 
-    private void initUi() {
+    private void initView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mBinding.rcvData.setLayoutManager(linearLayoutManager);
-
         mListHotel = new ArrayList<>();
+        mBinding.layoutSearch.setOnClickListener(view -> {
+            Intent intent = new Intent(this, SearchActivity.class);
+            intent.putExtra("search", "hotel");
+            startActivity(intent);
+        });
+
         mHotelAdapter = new HotelAdapter(mListHotel, new IOnClickHotelListener() {
             @Override
             public void onClickItemHotel(Hotel hotel) {
-//                GlobalFunction.goToDestinationDetail(FavoriteActivity.this, hotel.getId());
+//                GlobalFunction.goToDestinationDetail(List.this, hotel.getId());
             }
 
             @Override
             public void onClickFavoriteHotel(Hotel hotel, boolean favorite) {
-                GlobalFunction.onClickFavoriteHotel(FavoriteActivity.this, hotel, favorite);
+                GlobalFunction.onClickFavoriteHotel(ListHotelActivity.this, hotel, favorite);
             }
 
             @Override
             public void onClickLocationOfHotel(Location location) {
-                GlobalFunction.goToDestinationByLocation(FavoriteActivity.this, location);
+                GlobalFunction.goToDestinationByLocation(ListHotelActivity.this, location);
             }
         });
         mBinding.rcvData.setAdapter(mHotelAdapter);
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void loadDataFavorite() {
-        mValueEventListener = new ValueEventListener() {
+    private void loadListFoodFromFirebase() {
+        mFoodValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                resetListData();
+                resetListFood();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Hotel hotel = dataSnapshot.getValue(Hotel.class);
                     if (hotel == null) return;
-                    if (GlobalFunction.isFavoriteHotel(hotel)) {
-                        mListHotel.add(0, hotel);
-                    }
+                    mListHotel.add(0, hotel);
                 }
+                Collections.sort(mListHotel, (food1, food2) -> food2.getCount() - food1.getCount());
                 if (mHotelAdapter != null) mHotelAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                GlobalFunction.showToastMessage(FavoriteActivity.this,
-                        getString(R.string.msg_get_date_error));
             }
         };
-        MyApplication.get(this).hotelDatabaseReference().addValueEventListener(mValueEventListener);
+        MyApplication.get(this).hotelDatabaseReference().addValueEventListener(mFoodValueEventListener);
     }
 
-    private void resetListData() {
+    private void resetListFood() {
         if (mListHotel == null) {
             mListHotel = new ArrayList<>();
         } else {
@@ -111,8 +115,8 @@ public class FavoriteActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mValueEventListener != null) {
-            MyApplication.get(this).destinationDatabaseReference().removeEventListener(mValueEventListener);
+        if (mFoodValueEventListener != null) {
+            MyApplication.get(this).destinationDatabaseReference().removeEventListener(mFoodValueEventListener);
         }
     }
 }

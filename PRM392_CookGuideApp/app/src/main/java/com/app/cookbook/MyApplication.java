@@ -31,9 +31,6 @@ public class MyApplication extends Application {
         return mFirebaseDatabase.getReference("/locations");
     }
 
-    public DatabaseReference foodDatabaseReference() {
-        return mFirebaseDatabase.getReference("/hotels");
-    }
 
     public DatabaseReference hotelDatabaseReference() {
         return mFirebaseDatabase.getReference("/hotels");
@@ -49,22 +46,20 @@ public class MyApplication extends Application {
     }
 
 
-
-
     public DatabaseReference requestFoodDatabaseReference() {
         return mFirebaseDatabase.getReference("/request");
     }
 
-    public DatabaseReference foodDetailDatabaseReference(long foodId) {
-        return mFirebaseDatabase.getReference("destinations/" + foodId);
+    public DatabaseReference destinationDetailDatabaseReference(long locationId) {
+        return mFirebaseDatabase.getReference("destinations/" + locationId);
     }
 
-    public DatabaseReference ratingFoodDatabaseReference(long foodId) {
-        return mFirebaseDatabase.getReference("/destinations/" + foodId + "/rating");
+    public DatabaseReference ratingdestinationDatabaseReference(long locationId) {
+        return mFirebaseDatabase.getReference("/destinations/" + locationId + "/rating");
     }
 
-    public DatabaseReference countFoodDatabaseReference(long foodId) {
-        return mFirebaseDatabase.getReference("/destinations/" + foodId + "/count");
+    public DatabaseReference countDestinationDatabaseReference(long locationId) {
+        return mFirebaseDatabase.getReference("/destinations/" + locationId + "/count");
     }
     public DatabaseReference userDatabaseReference() {
         return mFirebaseDatabase.getReference("/user");

@@ -1,8 +1,6 @@
 package com.app.cookbook.model;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 
 public class Destination implements Serializable {
@@ -14,11 +12,11 @@ public class Destination implements Serializable {
     private int count;
     private HashMap<String, UserInfo> favorite;
     private HashMap<String, UserInfo> history;
-    private HashMap<String, Rating> rating;
     private long locationId;
     private String locationName;
 
-    public Destination() {}
+    public Destination() {
+    }
 
     public Destination(long id, String name, String image, String url, boolean featured, long locationId, String locationName) {
         this.id = id;
@@ -102,31 +100,6 @@ public class Destination implements Serializable {
         this.history = history;
     }
 
-    public HashMap<String, Rating> getRating() {
-        return rating;
-    }
-
-    public void setRating(HashMap<String, Rating> rating) {
-        this.rating = rating;
-    }
-
-    public double getRate() {
-        if (rating == null || rating.isEmpty()) return 0;
-        double sum = 0;
-        for (Rating ratingEntity : rating.values()) {
-            sum += ratingEntity.getRate();
-        }
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setDecimalSeparator('.');
-        DecimalFormat formatter = new DecimalFormat("#.#");
-        formatter.setDecimalFormatSymbols(symbols);
-        return Double.parseDouble(formatter.format(sum / rating.size()));
-    }
-
-    public int getCountReviews() {
-        if (rating == null || rating.isEmpty()) return 0;
-        return rating.size();
-    }
 
     public long getLocationId() {
         return locationId;

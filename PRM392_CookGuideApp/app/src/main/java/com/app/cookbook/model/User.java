@@ -7,7 +7,6 @@ public class User {
     private String email;
     private String password;
 
-    private boolean isAdmin;
 
 
     public User() {
@@ -34,13 +33,6 @@ public class User {
         this.password = password;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
 
     public String toJSon() {
         Gson gson = new Gson();

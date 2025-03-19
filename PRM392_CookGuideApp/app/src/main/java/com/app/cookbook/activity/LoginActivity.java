@@ -8,10 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
-import com.app.cookbook.MyApplication;
 import com.app.cookbook.R;
-import com.app.cookbook.activity.admin.AdminMainActivity;
-import com.app.cookbook.constant.Constant;
 import com.app.cookbook.constant.GlobalFunction;
 import com.app.cookbook.databinding.ActivityLogInBinding;
 import com.app.cookbook.model.User;
@@ -48,7 +45,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initListener() {
-        mActivityLogInBinding.rdbUser.setChecked(true);
         mActivityLogInBinding.edtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -137,40 +133,41 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-private void loginUserFirebase(String email, String password) {
-    showProgressDialog(true);
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private void loginUserFirebase(String email, String password) {
+        showProgressDialog(true);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-    firebaseAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this, task -> {
-                showProgressDialog(false);
-                if (task.isSuccessful()) {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    if (user != null) {
-                        if (user.isEmailVerified()) {
-                            Log.d("Login", "Email verified, retrieving user data for: " + email);
-                            retrieveUserData(email, password);
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    showProgressDialog(false);
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        if (user != null) {
+                            if (user.isEmailVerified()) {
+                                Log.d("Login", "Email verified, retrieving user data for: " + email);
+                                retrieveUserData(email, password);
+                            } else {
+                                showToastMessage(this, getString(R.string.msg_email_not_verified));
+                                user.sendEmailVerification()
+                                        .addOnCompleteListener(verificationTask -> {
+                                            if (verificationTask.isSuccessful()) {
+                                                showToastMessage(this, getString(R.string.msg_verification_email_sent));
+                                            } else {
+                                                showToastMessage(this, "Gửi email xác thực thất bại: " + verificationTask.getException().getMessage());
+                                            }
+                                        });
+                            }
                         } else {
-                            showToastMessage(this, getString(R.string.msg_email_not_verified));
-                            user.sendEmailVerification()
-                                    .addOnCompleteListener(verificationTask -> {
-                                        if (verificationTask.isSuccessful()) {
-                                            showToastMessage(this, getString(R.string.msg_verification_email_sent));
-                                        } else {
-                                            showToastMessage(this, "Gửi email xác thực thất bại: " + verificationTask.getException().getMessage());
-                                        }
-                                    });
+                            showToastMessage(this, "Không lấy được thông tin người dùng");
                         }
                     } else {
-                        showToastMessage(this, "Không lấy được thông tin người dùng");
+                        String errorMessage = task.getException() != null ? task.getException().getMessage() : "Lỗi không xác định";
+                        Log.e("Login", "Login failed: " + errorMessage);
+                        showToastMessage(this, "Đăng nhập thất bại: " + errorMessage);
                     }
-                } else {
-                    String errorMessage = task.getException() != null ? task.getException().getMessage() : "Lỗi không xác định";
-                    Log.e("Login", "Login failed: " + errorMessage);
-                    showToastMessage(this, "Đăng nhập thất bại: " + errorMessage);
-                }
-            });
-}
+                });
+    }
+
     private void retrieveUserData(String email, String password) {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("user");
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -178,11 +175,9 @@ private void loginUserFirebase(String email, String password) {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Boolean isAdmin = dataSnapshot.child("admin").getValue(Boolean.class);
-                    if (isAdmin == null) isAdmin = false;
+
 
                     User userObject = new User(email, password);
-                    userObject.setAdmin(isAdmin);
                     DataStoreManager.setUser(userObject);
                     Log.d("Login", "User data retrieved: " + userObject.toString());
                     goToMainActivity();
@@ -199,12 +194,11 @@ private void loginUserFirebase(String email, String password) {
             }
         });
     }
+
     private void goToMainActivity() {
-        if (DataStoreManager.getUser().isAdmin()) {
-            GlobalFunction.startActivity(LoginActivity.this, AdminMainActivity.class);
-        } else {
-            GlobalFunction.startActivity(LoginActivity.this, MainActivity.class);
-        }
+
+        GlobalFunction.startActivity(LoginActivity.this, MainActivity.class);
+
         finishAffinity();
     }
 }

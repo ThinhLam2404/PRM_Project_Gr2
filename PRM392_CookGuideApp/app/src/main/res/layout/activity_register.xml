@@ -14,107 +14,108 @@
         android:padding="@dimen/define_dimen_18">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/define_dimen_80"
+            android:layout_width="392dp"
+            android:layout_height="156dp"
             android:src="@drawable/img_logo_app"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_email"
             android:layout_marginTop="@dimen/define_dimen_30"
+            android:text="@string/label_email"
             android:textColor="@color/textColorHeading"
-            android:textSize="@dimen/text_size_12sp"/>
+            android:textSize="@dimen/text_size_12sp" />
 
         <EditText
             android:id="@+id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_5"
-            android:padding="@dimen/define_dimen_14"
             android:background="@drawable/bg_white_corner_30_border_gray"
             android:hint="@string/hint_email"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
-            android:textColorHint="@color/textColorAccent"
+            android:padding="@dimen/define_dimen_14"
             android:textColor="@color/textColorHeading"
+            android:textColorHint="@color/textColorAccent"
             android:textSize="@dimen/text_size_14sp"
             tools:ignore="Autofill" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_password"
             android:layout_marginTop="@dimen/define_dimen_14"
+            android:text="@string/label_password"
             android:textColor="@color/textColorHeading"
-            android:textSize="@dimen/text_size_12sp"/>
+            android:textSize="@dimen/text_size_12sp" />
 
         <EditText
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_5"
-            android:padding="@dimen/define_dimen_14"
             android:background="@drawable/bg_white_corner_30_border_gray"
             android:hint="@string/hint_password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
-            android:textColorHint="@color/textColorAccent"
+            android:padding="@dimen/define_dimen_14"
             android:textColor="@color/textColorHeading"
+            android:textColorHint="@color/textColorAccent"
             android:textSize="@dimen/text_size_14sp"
             tools:ignore="Autofill" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_comfirm_password"
             android:layout_marginTop="@dimen/define_dimen_14"
+            android:text="@string/label_comfirm_password"
             android:textColor="@color/textColorHeading"
-            android:textSize="@dimen/text_size_12sp"/>
+            android:textSize="@dimen/text_size_12sp" />
 
         <EditText
             android:id="@+id/edt_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_5"
-            android:padding="@dimen/define_dimen_14"
             android:background="@drawable/bg_white_corner_30_border_gray"
             android:hint="@string/hint_confirm_password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
-            android:textColorHint="@color/textColorAccent"
+            android:padding="@dimen/define_dimen_14"
             android:textColor="@color/textColorHeading"
+            android:textColorHint="@color/textColorAccent"
             android:textSize="@dimen/text_size_14sp"
             tools:ignore="Autofill" />
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/define_dimen_20"
-            android:orientation="horizontal">
+        <!--        <RadioGroup-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/define_dimen_20"-->
+        <!--            android:orientation="horizontal">-->
 
-            <RadioButton
-                android:id="@+id/rdb_admin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_admin" />
+        <!--            <RadioButton-->
+        <!--                android:id="@+id/rdb_admin"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="@string/label_admin" />-->
 
-            <RadioButton
-                android:id="@+id/rdb_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/define_dimen_20"
-                android:text="@string/label_user" />
-        </RadioGroup>
+        <!--            <RadioButton-->
+        <!--                android:id="@+id/rdb_user"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginStart="@dimen/define_dimen_20"-->
+        <!--                android:text="@string/label_user" />-->
+        <!--        </RadioGroup>-->
 
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/define_dimen_30"
-            android:textAllCaps="false"
             android:background="@drawable/bg_button_disable_corner_10"
             android:text="@string/label_register"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_14sp" />
     </LinearLayout>
@@ -140,8 +141,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/define_dimen_6"
             android:text="@string/label_login"
-            android:textStyle="bold"
             android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/text_size_14sp" />
+            android:textSize="@dimen/text_size_14sp"
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.app.cookbook.MyApplication;
 import com.app.cookbook.R;
-import com.app.cookbook.activity.admin.AdminMainActivity;
 import com.app.cookbook.constant.Constant;
 import com.app.cookbook.constant.GlobalFunction;
 import com.app.cookbook.databinding.ActivityRegisterBinding;
@@ -47,7 +46,6 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void initListener() {
-        mActivityRegisterBinding.rdbUser.setChecked(true);
         mActivityRegisterBinding.edtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -127,35 +125,7 @@ private void onClickValidateRegister() {
         registerUserFirebase(strEmail, strPassword);
     }
 }
-//private void registerUserFirebase(String email, String password) {
-//    showProgressDialog(true);
-//    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-//    firebaseAuth.createUserWithEmailAndPassword(email, password)
-//            .addOnCompleteListener(this, task -> {
-//                showProgressDialog(false);
-//                if (task.isSuccessful()) {
-//                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//                    if (firebaseUser != null) {
-//                        User userObject = new User(firebaseUser.getEmail(), password);
-//                        // Determine if the user is an admin or a regular user based on the selected radio button
-//                        if (mActivityRegisterBinding.rdbAdmin.isChecked()) {
-//                            userObject.setAdmin(true); // Set as admin if selected
-//                        } else {
-//                            userObject.setAdmin(false); // Set as regular user if selected
-//                        }
-//                        // Save user data to local storage
-//                        DataStoreManager.setUser(userObject);
-//                        // Push user data to Firebase Realtime Database
-//                        saveUserToDatabase(userObject);
-//                        // Navigate to the main activity
-//                        goToMainActivity();
-//                    }
-//                } else {
-//
-//                   // showToastMessage(this, getString(R.string.msg_register_error));
-//                }
-//            });
-//}
+
 
     private void registerUserFirebase(String email, String password) {
         showProgressDialog(true);
@@ -180,11 +150,7 @@ private void onClickValidateRegister() {
                                             // Lưu thông tin người dùng (đặt cờ admin nếu cần)
                                             User userObject = new User(firebaseUser.getEmail(), password);
                                             Log.d("USER", "registerUserFirebase: "+userObject);
-                                            if (mActivityRegisterBinding.rdbAdmin.isChecked()) {
-                                                userObject.setAdmin(true); // Là admin
-                                            } else {
-                                                userObject.setAdmin(false); // Người dùng thường
-                                            }
+//
                                             // Lưu thông tin người dùng vào Firebase Realtime Database
                                             saveUserToDatabase(userObject);
 
@@ -205,20 +171,7 @@ private void onClickValidateRegister() {
                 });
     }
 
-//    private void saveUserToDatabase(User user) {
-//        DatabaseReference userRef = ((MyApplication) getApplication()).userDatabaseReference();
-//        String userId = userRef.push().getKey();
-//        if (userId != null) {
-//            userRef.child(userId).setValue(user)
-//                    .addOnCompleteListener(task -> {
-//                        if (task.isSuccessful()) {
-//                            System.out.println("User data saved successfully");
-//                        } else {
-//                            System.err.println("Failed to save user data");
-//                        }
-//                    });
-//        }
-//    }
+
 private void saveUserToDatabase(User user) {
     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("user"); // Dùng trực tiếp getReference()
     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -232,11 +185,7 @@ private void saveUserToDatabase(User user) {
             });
 }
     private void goToMainActivity() {
-        if (DataStoreManager.getUser().isAdmin()) {
-            GlobalFunction.startActivity(RegisterActivity.this, AdminMainActivity.class);
-        } else {
             GlobalFunction.startActivity(RegisterActivity.this, MainActivity.class);
-        }
         finishAffinity();
     }
 }

@@ -1,24 +1,19 @@
 package com.app.cookbook.constant;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
-
 import com.app.cookbook.MyApplication;
 import com.app.cookbook.activity.DestinationByLocationActivity;
-import com.app.cookbook.activity.FoodDetailActivity;
-import com.app.cookbook.model.Location;
+import com.app.cookbook.activity.DestinationDetailActivity;
 import com.app.cookbook.model.Destination;
+import com.app.cookbook.model.Hotel;
+import com.app.cookbook.model.Location;
 import com.app.cookbook.model.UserInfo;
 import com.app.cookbook.prefs.DataStoreManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,80 +48,6 @@ public class GlobalFunction {
         }
     }
 
-    public static void onClickOpenGmail(Context context) {
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto", AboutUsConfig.GMAIL, null));
-        context.startActivity(Intent.createChooser(emailIntent, "Send Email"));
-    }
-
-    public static void onClickOpenSkype(Context context) {
-        try {
-            Uri skypeUri = Uri.parse("skype:" + AboutUsConfig.SKYPE_ID + "?chat");
-            context.getPackageManager().getPackageInfo("com.skype.raider", 0);
-            Intent skypeIntent = new Intent(Intent.ACTION_VIEW, skypeUri);
-            skypeIntent.setComponent(new ComponentName("com.skype.raider", "com.skype.raider.Main"));
-            context.startActivity(skypeIntent);
-        } catch (Exception e) {
-            openSkypeWebView(context);
-        }
-    }
-
-    private static void openSkypeWebView(Context context) {
-        try {
-            context.startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("skype:" + AboutUsConfig.SKYPE_ID + "?chat")));
-        } catch (Exception exception) {
-            String skypePackageName = "com.skype.raider";
-            try {
-                context.startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=" + skypePackageName)));
-            } catch (android.content.ActivityNotFoundException anfe) {
-                context.startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://play.google.com/store/apps/details?id=" + skypePackageName)));
-            }
-        }
-    }
-
-    public static void onClickOpenFacebook(Context context) {
-        Intent intent;
-        try {
-            String urlFacebook = AboutUsConfig.PAGE_FACEBOOK;
-            PackageManager packageManager = context.getPackageManager();
-            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
-            if (versionCode >= 3002850) {
-                urlFacebook = "fb://facewebmodal/f?href=" + AboutUsConfig.LINK_FACEBOOK;
-            }
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlFacebook));
-        } catch (Exception e) {
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(AboutUsConfig.LINK_FACEBOOK));
-        }
-        context.startActivity(intent);
-    }
-
-    public static void onClickOpenYoutubeChannel(Context context) {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(AboutUsConfig.LINK_YOUTUBE)));
-    }
-
-    public static void onClickOpenZalo(Context context) {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(AboutUsConfig.ZALO_LINK)));
-    }
-
-    public static void callPhoneNumber(Activity activity) {
-        try {
-            if (ActivityCompat.checkSelfPermission(activity,
-                    Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.CALL_PHONE}, 101);
-                return;
-            }
-
-            Intent callIntent = new Intent(Intent.ACTION_CALL);
-            callIntent.setData(Uri.parse("tel:" + AboutUsConfig.PHONE_NUMBER));
-            activity.startActivity(callIntent);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     public static void showToastMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -138,47 +59,48 @@ public class GlobalFunction {
         return pattern.matcher(nfdNormalizedString).replaceAll("");
     }
 
-    public static void goToFoodDetail(Context context, long foodId) {
+    public static void goToDestinationDetail(Context context, long foodId) {
         Bundle bundle = new Bundle();
         bundle.putLong(Constant.FOOD_ID, foodId);
-        startActivity(context, FoodDetailActivity.class, bundle);
+        startActivity(context, DestinationDetailActivity.class, bundle);
     }
 
-    public static void goToFoodByCategory(Context context, Location location) {
+    public static void goToDestinationByLocation(Context context, Location location) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constant.OBJECT_CATEGORY, location);
         startActivity(context, DestinationByLocationActivity.class, bundle);
     }
 
-    public static void onClickFavoriteFood(Context context, Destination destination, boolean isFavorite) {
+    public static void onClickFavoriteHotel(Context context, Hotel hotel, boolean isFavorite) {
         if (context == null) return;
         String userId = FirebaseAuth.getInstance().getCurrentUser() != null ?
                 FirebaseAuth.getInstance().getCurrentUser().getUid() : "null";
         Log.d("Favorite", "Current user UID: " + userId);
         if (isFavorite) {
             String userEmail = DataStoreManager.getUser().getEmail();
+            Log.d("userEmail", "onClickFavoriteHotel: " + userEmail);
             UserInfo userInfo = new UserInfo(System.currentTimeMillis(), userEmail);
-            MyApplication.get(context).foodDatabaseReference()
-                    .child(String.valueOf(destination.getId()))
+            MyApplication.get(context).hotelDatabaseReference()
+                    .child(String.valueOf(hotel.getId()))
                     .child("favorite")
                     .child(String.valueOf(userInfo.getId()))
                     .setValue(userInfo).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Log.d("Favorite", "Added favorite for food: " + destination.getId() + " with ID: " + userInfo.getId());
+                            Log.d("Favorite", "Added favorite for hotel: " + hotel.getId() + " with ID: " + userInfo.getId());
                         } else {
                             Log.e("Favorite", "Failed to add favorite: " + task.getException().getMessage());
                         }
                     });
         } else {
-            UserInfo userInfo = getUserFavoriteFood(destination);
+            UserInfo userInfo = getUserFavoriteHotel(hotel);
             if (userInfo != null) {
-                MyApplication.get(context).foodDatabaseReference()
-                        .child(String.valueOf(destination.getId()))
+                MyApplication.get(context).hotelDatabaseReference()
+                        .child(String.valueOf(hotel.getId()))
                         .child("favorite")
                         .child(String.valueOf(userInfo.getId()))
                         .removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Log.d("Favorite", "Removed favorite for food: " + destination.getId() + " with ID: " + userInfo.getId());
+                                Log.d("Favorite", "Removed favorite for hotel: " + hotel.getId() + " with ID: " + userInfo.getId());
                             } else {
                                 Log.e("Favorite", "Failed to remove favorite: " + task.getException().getMessage());
                             }
@@ -187,10 +109,10 @@ public class GlobalFunction {
         }
     }
 
-    private static UserInfo getUserFavoriteFood(Destination destination) {
+    private static UserInfo getUserFavoriteHotel(Hotel hotel) {
         UserInfo userInfo = null;
-        if (destination.getFavorite() == null || destination.getFavorite().isEmpty()) return null;
-        List<UserInfo> listUsersFavorite = new ArrayList<>(destination.getFavorite().values());
+        if (hotel.getFavorite() == null || hotel.getFavorite().isEmpty()) return null;
+        List<UserInfo> listUsersFavorite = new ArrayList<>(hotel.getFavorite().values());
         for (UserInfo userObject : listUsersFavorite) {
             if (DataStoreManager.getUser().getEmail().equals(userObject.getEmailUser())) {
                 userInfo = userObject;
@@ -200,9 +122,21 @@ public class GlobalFunction {
         return userInfo;
     }
 
-    public static boolean isFavoriteFood(Destination destination) {
-        if (destination.getFavorite() == null || destination.getFavorite().isEmpty()) return false;
-        List<UserInfo> listUsersFavorite = new ArrayList<>(destination.getFavorite().values());
+//    public static boolean isFavoriteFood(Destination destination) {
+//        if (destination.getFavorite() == null || destination.getFavorite().isEmpty()) return false;
+//        List<UserInfo> listUsersFavorite = new ArrayList<>(destination.getFavorite().values());
+//        if (listUsersFavorite.isEmpty()) return false;
+//        for (UserInfo userInfo : listUsersFavorite) {
+//            if (DataStoreManager.getUser().getEmail().equals(userInfo.getEmailUser())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
+    public static boolean isFavoriteHotel(Hotel hotel) {
+        if (hotel.getFavorite() == null || hotel.getFavorite().isEmpty()) return false;
+        List<UserInfo> listUsersFavorite = new ArrayList<>(hotel.getFavorite().values());
         if (listUsersFavorite.isEmpty()) return false;
         for (UserInfo userInfo : listUsersFavorite) {
             if (DataStoreManager.getUser().getEmail().equals(userInfo.getEmailUser())) {

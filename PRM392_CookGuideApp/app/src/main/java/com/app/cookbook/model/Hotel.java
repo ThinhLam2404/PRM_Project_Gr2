@@ -1,8 +1,6 @@
 package com.app.cookbook.model;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 
 public class Hotel implements Serializable {
@@ -12,13 +10,13 @@ public class Hotel implements Serializable {
     private int count;
     private HashMap<String, UserInfo> favorite;
     private HashMap<String, UserInfo> history;
-    private HashMap<String, Rating> rating;
     private long locationId;
     private String locationName;
 
-    public Hotel() {}
+    public Hotel() {
+    }
 
-    public Hotel(long id, String name, String image,  long locationId, String locationName) {
+    public Hotel(long id, String name, String image, long locationId, String locationName) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -49,7 +47,6 @@ public class Hotel implements Serializable {
     public void setImage(String image) {
         this.image = image;
     }
-
 
 
     public int getCount() {
@@ -84,31 +81,6 @@ public class Hotel implements Serializable {
         this.history = history;
     }
 
-    public HashMap<String, Rating> getRating() {
-        return rating;
-    }
-
-    public void setRating(HashMap<String, Rating> rating) {
-        this.rating = rating;
-    }
-
-    public double getRate() {
-        if (rating == null || rating.isEmpty()) return 0;
-        double sum = 0;
-        for (Rating ratingEntity : rating.values()) {
-            sum += ratingEntity.getRate();
-        }
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setDecimalSeparator('.');
-        DecimalFormat formatter = new DecimalFormat("#.#");
-        formatter.setDecimalFormatSymbols(symbols);
-        return Double.parseDouble(formatter.format(sum / rating.size()));
-    }
-
-    public int getCountReviews() {
-        if (rating == null || rating.isEmpty()) return 0;
-        return rating.size();
-    }
 
     public long getLocationId() {
         return locationId;

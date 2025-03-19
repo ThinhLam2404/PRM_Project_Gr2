@@ -1,23 +1,17 @@
 package com.app.cookbook.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
@@ -27,27 +21,23 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.app.cookbook.MyApplication;
 import com.app.cookbook.R;
-import com.app.cookbook.adapter.CategoryHomeAdapter;
-import com.app.cookbook.adapter.CategoryMenuAdapter;
-import com.app.cookbook.adapter.FoodAdapter;
-import com.app.cookbook.adapter.FoodFeaturedAdapter;
+import com.app.cookbook.adapter.HotelAdapter;
+import com.app.cookbook.adapter.HotelFeaturedAdapter;
+import com.app.cookbook.adapter.LocationHomeAdapter;
 import com.app.cookbook.constant.Constant;
 import com.app.cookbook.constant.GlobalFunction;
 import com.app.cookbook.databinding.ActivityMainBinding;
-import com.app.cookbook.listener.IOnClickFoodListener;
+import com.app.cookbook.listener.IOnClickHotelListener;
 import com.app.cookbook.model.Hotel;
 import com.app.cookbook.model.Location;
-import com.app.cookbook.model.Destination;
-import com.app.cookbook.model.RequestFood;
 import com.app.cookbook.model.User;
 import com.app.cookbook.prefs.DataStoreManager;
 import com.app.cookbook.utils.LocaleHelper;
-import com.app.cookbook.utils.StringUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,37 +46,31 @@ import java.util.Locale;
 @SuppressLint("NonConstantResourceId")
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
+    private final Handler mHandlerBanner = new Handler(Looper.getMainLooper());
     private ActivityMainBinding mBinding;
-    private CategoryMenuAdapter mCategoryMenuAdapter;
+    //    private LocationMenuAdapter mLocationMenuAdapter;
     private List<Location> mListLocation;
     private List<Location> mListLocationHome;
-    private List<Destination> mListDestination;
-    private List<Destination> mListDestinationFeatured;
-
-
     private List<Hotel> mListHotel;
-
-
-    private ValueEventListener mCategoryValueEventListener;
-    private ValueEventListener mFoodValueEventListener;
-    private final Handler mHandlerBanner = new Handler(Looper.getMainLooper());
+    private List<Hotel> mListHotelFeatured;
     private final Runnable mRunnableBanner = new Runnable() {
         @Override
         public void run() {
-            if (mListDestinationFeatured == null || mListDestinationFeatured.isEmpty()) return;
-            if (mBinding.viewPager.getCurrentItem() == mListDestinationFeatured.size() - 1) {
+            if (mListHotelFeatured == null || mListHotelFeatured.isEmpty()) return;
+            if (mBinding.viewPager.getCurrentItem() == mListHotelFeatured.size() - 1) {
                 mBinding.viewPager.setCurrentItem(0);
                 return;
             }
             mBinding.viewPager.setCurrentItem(mBinding.viewPager.getCurrentItem() + 1);
         }
     };
+    private ValueEventListener mCategoryValueEventListener;
+    private ValueEventListener mHotelValueEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Retrieve the saved language preference
         SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
-        String languageCode = prefs.getString("language", "vi"); // Default to Vietnamese
+        String languageCode = prefs.getString("language", "vi");
         LocaleHelper.setLocale(this, languageCode);
 
         super.onCreate(savedInstanceState);
@@ -97,40 +81,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         initListener();
         initNavigationMenuLeft();
 
-
-        // Khai báo Switch
         Switch switchLanguage = mBinding.switchLanguage;
-// Thiết lập OnCheckedChangeListener
         if (switchLanguage != null) {
             switchLanguage.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 String languageCodes = isChecked ? "vi" : "en";
                 saveLanguagePreference(languageCodes);
                 changeLanguage(languageCodes);
 
-                // Change the icon based on the switch state
                 int drawableId = isChecked ? R.drawable.ic_language_vn : R.drawable.ic_language_en;
                 Drawable drawable = getResources().getDrawable(drawableId);
-                int width = (int) (drawable.getIntrinsicWidth() * 0.3); // Scale to 50%
-                int height = (int) (drawable.getIntrinsicHeight() * 0.3); // Scale to 50%
+                int width = (int) (drawable.getIntrinsicWidth() * 0.3);
+                int height = (int) (drawable.getIntrinsicHeight() * 0.3);
                 drawable.setBounds(0, 0, width, height);
                 switchLanguage.setCompoundDrawables(drawable, null, null, null);
             });
-            // Set default to the saved language
+
             SharedPreferences prefss = getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-            String savedLanguage = prefss.getString("language", "vi"); // Default to Vietnamese
+            String savedLanguage = prefss.getString("language", "vi");
             switchLanguage.setChecked(savedLanguage.equals("vi"));
-            // Set the initial icon based on the saved language
             int initialDrawableId = savedLanguage.equals("vi") ? R.drawable.ic_language_vn : R.drawable.ic_language_en;
             Drawable initialDrawable = getResources().getDrawable(initialDrawableId);
-            int initialWidth = (int) (initialDrawable.getIntrinsicWidth() * 0.3); // Scale to 50%
-            int initialHeight = (int) (initialDrawable.getIntrinsicHeight() * 0.3); // Scale to 50%
+            int initialWidth = (int) (initialDrawable.getIntrinsicWidth() * 0.3);
+            int initialHeight = (int) (initialDrawable.getIntrinsicHeight() * 0.3);
             initialDrawable.setBounds(0, 0, initialWidth, initialHeight);
             switchLanguage.setCompoundDrawables(initialDrawable, null, null, null);
         } else {
             Log.e("MainActivity", "Switch is null");
         }
     }
-//Language
+
     private void saveLanguagePreference(String languageCode) {
         SharedPreferences prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -146,10 +125,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Configuration config = new Configuration();
             config.setLocale(locale);
             getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-            recreate(); // Reload the activity to apply the new language
+            recreate();
         }
     }
-    //end language
 
     private void initToolbar() {
         mBinding.header.imgToolbar.setImageResource(R.drawable.ic_menu);
@@ -158,9 +136,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void initListener() {
         mBinding.header.imgToolbar.setOnClickListener(this);
-//        mBinding.tvRequestFood.setOnClickListener(this);
-//        mBinding.layoutFeedback.setOnClickListener(this);
-//        mBinding.layoutContact.setOnClickListener(this);
         mBinding.layoutChangePassword.setOnClickListener(this);
         mBinding.layoutSignOut.setOnClickListener(this);
         mBinding.viewAllCategory.setOnClickListener(this);
@@ -168,6 +143,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mBinding.layoutSearch.setOnClickListener(this);
         mBinding.layoutFavorite.setOnClickListener(this);
         mBinding.layoutHistory.setOnClickListener(this);
+        mBinding.bottomNavigation.setOnItemSelectedListener({ item ->
+                when (item.itemId) {
+                R.id.nav_home -> {
+            // Đã ở trang Home, không cần làm gì
+            true
+        }
+        R.id.nav_saved -> {
+            GlobalFunction.startActivity(this, SavedActivity::class.java)
+            true
+        }
+        R.id.nav_add_trip -> {
+            GlobalFunction.startActivity(this, AddTripActivity::class.java)
+            true
+        }
+        R.id.nav_notifications -> {
+            GlobalFunction.startActivity(this, NotificationsActivity::class.java)
+            true
+        }
+        R.id.nav_profile -> {
+            GlobalFunction.startActivity(this, ProfileActivity::class.java)
+            true
+        }
+            else -> false
+        }
+        });
+     
     }
 
     @Override
@@ -176,21 +177,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.img_toolbar:
                 mBinding.drawerLayout.openDrawer(GravityCompat.START);
                 break;
-
-//            case R.id.tv_request_food:
-//                mBinding.drawerLayout.closeDrawer(GravityCompat.START);
-//                showDialogRequestFood();
-//                break;
-
-//            case R.id.layout_feedback:
-//                mBinding.drawerLayout.closeDrawer(GravityCompat.START);
-//                GlobalFunction.startActivity(this, FeedbackActivity.class);
-//                break;
-//
-//            case R.id.layout_contact:
-//                mBinding.drawerLayout.closeDrawer(GravityCompat.START);
-//                GlobalFunction.startActivity(this, ContactActivity.class);
-//                break;
 
             case R.id.layout_change_password:
                 mBinding.drawerLayout.closeDrawer(GravityCompat.START);
@@ -202,15 +188,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.view_all_category:
-                GlobalFunction.startActivity(this, ListCategoryActivity.class);
+                GlobalFunction.startActivity(this, ListLocationActivity.class);
                 break;
 
             case R.id.view_all_food:
-                GlobalFunction.startActivity(this, ListFoodActivity.class);
+                GlobalFunction.startActivity(this, ListHotelActivity.class);
                 break;
 
             case R.id.layout_search:
-                GlobalFunction.startActivity(this, SearchActivity.class);
+                Intent intent = new Intent(this, SearchActivity.class);
+                intent.putExtra("search", "destination");
+                startActivity(intent);
                 break;
 
             case R.id.layout_favorite:
@@ -220,19 +208,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_history:
                 GlobalFunction.startActivity(this, HistoryActivity.class);
                 break;
+
         }
     }
 
     private void initNavigationMenuLeft() {
         displayUserInformation();
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        mBinding.rcvCategory.setLayoutManager(linearLayoutManager);
-//        mListCategory = new ArrayList<>();
-//        mCategoryMenuAdapter = new CategoryMenuAdapter(mListCategory,
-//                category -> GlobalFunction.goToFoodByCategory(MainActivity.this, category));
-//        mBinding.rcvCategory.setAdapter(mCategoryMenuAdapter);
-
         loadListLocationFromFirebase();
     }
 
@@ -253,15 +234,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     if (location == null) return;
                     mListLocation.add(0, location);
                 }
-                if (mCategoryMenuAdapter != null) mCategoryMenuAdapter.notifyDataSetChanged();
+//                if (mLocationMenuAdapter != null) mLocationMenuAdapter.notifyDataSetChanged();
                 displayListLocationHome();
-
-                loadListHotelFromFirebase();
+                loadListHotelFromFirebase(); // Tải danh sách hotels
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                showProgressDialog(true);
+                showProgressDialog(false);
             }
         };
         MyApplication.get(this).locationDatabaseReference().addValueEventListener(mCategoryValueEventListener);
@@ -271,9 +251,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         LinearLayoutManager layoutManagerHorizontal = new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false);
         mBinding.rcvCategoryHome.setLayoutManager(layoutManagerHorizontal);
-        CategoryHomeAdapter categoryHomeAdapter = new CategoryHomeAdapter(loadListLocationHome(),
-                category -> GlobalFunction.goToFoodByCategory(MainActivity.this, category));
-        mBinding.rcvCategoryHome.setAdapter(categoryHomeAdapter);
+        LocationHomeAdapter locationHomeAdapter = new LocationHomeAdapter(loadListLocationHome(),
+                category -> GlobalFunction.goToDestinationByLocation(MainActivity.this, category)); // Chuyển sang hiển thị destinations
+        mBinding.rcvCategoryHome.setAdapter(locationHomeAdapter);
     }
 
     private List<Location> loadListLocationHome() {
@@ -302,32 +282,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private void resetListFood() {
-        if (mListDestination == null) {
-            mListDestination = new ArrayList<>();
+    private void resetListHotel() {
+        if (mListHotel == null) {
+            mListHotel = new ArrayList<>();
         } else {
-            mListDestination.clear();
+            mListHotel.clear();
         }
     }
 
-    private void resetListFoodFeatured() {
-        if (mListDestinationFeatured == null) {
-            mListDestinationFeatured = new ArrayList<>();
+    private void resetListHotelFeatured() {
+        if (mListHotelFeatured == null) {
+            mListHotelFeatured = new ArrayList<>();
         } else {
-            mListDestinationFeatured.clear();
+            mListHotelFeatured.clear();
         }
     }
 
     private void loadListHotelFromFirebase() {
-        mFoodValueEventListener = new ValueEventListener() {
+        mHotelValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 showProgressDialog(false);
-                resetListFood();
+                resetListHotel();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Destination destination = dataSnapshot.getValue(Destination.class);
-                    if (destination == null) return;
-                    mListDestination.add(0, destination);
+                    Hotel hotel = dataSnapshot.getValue(Hotel.class);
+                    if (hotel == null) return;
+                    mListHotel.add(0, hotel);
                 }
                 displayListHotelFeatured();
                 displayListPopularHotel();
@@ -342,36 +322,37 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 GlobalFunction.showToastMessage(MainActivity.this, getString(R.string.msg_get_date_error));
             }
         };
-        MyApplication.get(this).hotelDatabaseReference().addValueEventListener(mFoodValueEventListener);
+        MyApplication.get(this).hotelDatabaseReference().addValueEventListener(mHotelValueEventListener);
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void displayCountHotelOfLocation() {
         if (mListLocation == null || mListLocation.isEmpty()) return;
         for (Location location : mListLocation) {
-            location.setCount(loadCountDestinationOfLocation(location.getId()));
+            location.setCount(loadCountHotelOfLocation(location.getId()));
         }
-        if (mCategoryMenuAdapter != null) mCategoryMenuAdapter.notifyDataSetChanged();
+//        if (mLocationMenuAdapter != null) mLocationMenuAdapter.notifyDataSetChanged();
     }
 
-    private int loadCountDestinationOfLocation(long locationId) {
-        if (mListDestination == null || mListDestination.isEmpty()) return 0;
-        List<Destination> listDestinations = new ArrayList<>();
-        for (Destination destination : mListDestination) {
-            if (locationId == destination.getLocationId()) {
-                listDestinations.add(destination);
+    private int loadCountHotelOfLocation(long locationId) {
+        if (mListHotel == null || mListHotel.isEmpty()) return 0;
+        List<Hotel> listHotels = new ArrayList<>();
+        for (Hotel hotel : mListHotel) {
+            if (locationId == hotel.getLocationId()) {
+                listHotels.add(hotel);
             }
         }
-        return listDestinations.size();
+        return listHotels.size();
     }
 
     private void displayCountFavorite() {
         int countFavorite = 0;
-        if (mListDestination != null && !mListDestination.isEmpty()) {
-            List<Destination> listFavorite = new ArrayList<>();
-            for (Destination destination : mListDestination) {
-                if (GlobalFunction.isFavoriteFood(destination)) {
-                    listFavorite.add(destination);
+        if (mListHotel != null && !mListHotel.isEmpty()) {
+            List<Hotel> listFavorite = new ArrayList<>();
+            for (Hotel hotel : mListHotel) {
+                // Giả sử Hotel có logic favorite tương tự Destination, nếu không thì bỏ qua
+                if (GlobalFunction.isFavoriteHotel(hotel)) {
+                    listFavorite.add(hotel);
                 }
             }
             countFavorite = listFavorite.size();
@@ -381,12 +362,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void displayCountHistory() {
         int countHistory = 0;
-        if (mListDestination != null && !mListDestination.isEmpty()) {
-            List<Destination> listHistory = new ArrayList<>();
-            for (Destination destination : mListDestination) {
-                if (GlobalFunction.isHistoryFood(destination)) {
-                    listHistory.add(destination);
-                }
+        if (mListHotel != null && !mListHotel.isEmpty()) {
+            List<Hotel> listHistory = new ArrayList<>();
+            for (Hotel hotel : mListHotel) {
+                // Giả sử Hotel có logic history tương tự Destination, nếu không thì bỏ qua
+                // if (GlobalFunction.isHistoryFood(hotel)) {
+                //     listHistory.add(hotel);
+                // }
             }
             countHistory = listHistory.size();
         }
@@ -394,20 +376,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void displayListHotelFeatured() {
-        FoodFeaturedAdapter foodFeaturedAdapter = new FoodFeaturedAdapter(loadListFoodFeatured(), new IOnClickFoodListener() {
+        HotelFeaturedAdapter hotelFeaturedAdapter = new HotelFeaturedAdapter(loadListHotelFeatured(),
+                new IOnClickHotelListener() {
+                    //                    @Override
+                    public void onClickItemHotel(Hotel hotel) {
+//                        GlobalFunction.goToFoodDetail(MainActivity.this, hotel.getId());
+                    }
 
-            @Override
-            public void onClickItemFood(Destination food) {
-                GlobalFunction.goToFoodDetail(MainActivity.this, food.getId());
-            }
+                    @Override
+                    public void onClickFavoriteHotel(Hotel hotel, boolean favorite) {
+                        // Xử lý favorite nếu Hotel có trường này
+                    }
 
-            @Override
-            public void onClickFavoriteFood(Destination food, boolean favorite) {}
-
-            @Override
-            public void onClickCategoryOfFood(Location category) {}
-        });
-        mBinding.viewPager.setAdapter(foodFeaturedAdapter);
+                    @Override
+                    public void onClickLocationOfHotel(Location category) {
+                    }
+                });
+        mBinding.viewPager.setAdapter(hotelFeaturedAdapter);
         mBinding.indicator.setViewPager(mBinding.viewPager);
 
         mBinding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -420,90 +405,53 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    private List<Destination> loadListFoodFeatured() {
-        resetListFoodFeatured();
-        for (Destination destination : mListDestination) {
-            if (destination.isFeatured() && mListDestinationFeatured.size() < Constant.MAX_SIZE_LIST_FEATURED) {
-                mListDestinationFeatured.add(destination);
+    private List<Hotel> loadListHotelFeatured() {
+        resetListHotelFeatured();
+        for (Hotel hotel : mListHotel) {
+            // Nếu Hotel không có trường featured, hiển thị tất cả hoặc dựa vào tiêu chí khác
+            if (mListHotelFeatured.size() < Constant.MAX_SIZE_LIST_FEATURED) {
+                mListHotelFeatured.add(hotel);
             }
         }
-        return mListDestinationFeatured;
+        return mListHotelFeatured;
     }
 
     private void displayListPopularHotel() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mBinding.rcvFoodPopular.setLayoutManager(linearLayoutManager);
 
-        FoodAdapter foodAdapter = new FoodAdapter(loadListPopularFood(), new IOnClickFoodListener() {
-            @Override
-            public void onClickItemFood(Destination food) {
-                GlobalFunction.goToFoodDetail(MainActivity.this, food.getId());
-            }
+        HotelAdapter foodAdapter = new HotelAdapter(loadListPopularHotel(),
+                new IOnClickHotelListener() {
+                    @Override
+                    public void onClickItemHotel(Hotel hotel) {
+//                        GlobalFunction.goToFoodDetail(MainActivity.this, hotel.getId());
+                    }
 
-            @Override
-            public void onClickFavoriteFood(Destination food, boolean favorite) {
-                    GlobalFunction.onClickFavoriteFood(MainActivity.this, food, favorite);
-            }
+                    @Override
+                    public void onClickFavoriteHotel(Hotel hotel, boolean favorite) {
+                        GlobalFunction.onClickFavoriteHotel(MainActivity.this, hotel, favorite);
+                    }
 
-            @Override
-            public void onClickCategoryOfFood(Location category) {
-                GlobalFunction.goToFoodByCategory(MainActivity.this, category);
-            }
-        });
+                    @Override
+                    public void onClickLocationOfHotel(Location category) {
+                        GlobalFunction.goToDestinationByLocation(MainActivity.this, category);
+                    }
+                });
         mBinding.rcvFoodPopular.setAdapter(foodAdapter);
     }
 
-    private List<Destination> loadListPopularFood() {
-        List<Destination> list = new ArrayList<>();
-        List<Destination> allDestinations = new ArrayList<>(mListDestination);
-        Collections.sort(allDestinations, (food1, food2) -> food2.getCount() - food1.getCount());
-        for (Destination destination : allDestinations) {
+    private List<Hotel> loadListPopularHotel() {
+        List<Hotel> list = new ArrayList<>();
+        List<Hotel> allHotels = new ArrayList<>(mListHotel);
+        Collections.sort(allHotels, (hotel1, hotel2) -> hotel2.getCount() - hotel1.getCount());
+        for (Hotel hotel : allHotels) {
             if (list.size() < Constant.MAX_SIZE_LIST_POPULAR) {
-                list.add(destination);
+                list.add(hotel);
             }
         }
         return list;
     }
 
-    private void showDialogRequestFood() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_dialog_request_food);
-        Window window = dialog.getWindow();
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setCancelable(false);
-
-        // Get view
-        final ImageView imgClose = dialog.findViewById(R.id.img_close);
-        final EditText edtFoodName = dialog.findViewById(R.id.edt_food_name);
-        final TextView tvSendRequest = dialog.findViewById(R.id.tv_send_request);
-
-        imgClose.setOnClickListener(v -> dialog.dismiss());
-
-        tvSendRequest.setOnClickListener(v -> {
-            String strFoodName = edtFoodName.getText().toString().trim();
-            if (StringUtil.isEmpty(strFoodName)) {
-                GlobalFunction.showToastMessage(this,
-                        getString(R.string.msg_name_food_request));
-            } else {
-                showProgressDialog(true);
-                long requestId = System.currentTimeMillis();
-                RequestFood requestFood = new RequestFood(requestId, strFoodName);
-                MyApplication.get(this).requestFoodDatabaseReference()
-                        .child(String.valueOf(System.currentTimeMillis()))
-                        .setValue(requestFood, (databaseError, databaseReference) -> {
-                            showProgressDialog(false);
-                            GlobalFunction.hideSoftKeyboard(this);
-                            GlobalFunction.showToastMessage(this,
-                                    getString(R.string.msg_send_request_food_success));
-                            dialog.dismiss();
-                        });
-            }
-        });
-        dialog.show();
-    }
 
     private void onClickSignOut() {
         FirebaseAuth.getInstance().signOut();
@@ -534,8 +482,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (mCategoryValueEventListener != null) {
             MyApplication.get(this).locationDatabaseReference().removeEventListener(mCategoryValueEventListener);
         }
-        if (mFoodValueEventListener != null) {
-            MyApplication.get(this).destinationDatabaseReference().removeEventListener(mFoodValueEventListener);
+        if (mHotelValueEventListener != null) {
+            MyApplication.get(this).hotelDatabaseReference().removeEventListener(mHotelValueEventListener);
         }
     }
 }

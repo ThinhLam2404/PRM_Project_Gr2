@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:background="@color/white"
     tools:ignore="UseCompoundDrawables">
 
     <RelativeLayout
@@ -18,8 +18,8 @@
             android:id="@+id/img_toolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/define_dimen_10"
             android:layout_centerVertical="true"
+            android:padding="@dimen/define_dimen_10"
             android:src="@drawable/ic_back"
             tools:ignore="ContentDescription" />
 
@@ -27,9 +27,9 @@
             android:id="@+id/tv_toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_marginStart="@dimen/define_dimen_5"
             android:text="@string/app_name"
-            android:layout_centerInParent="true"
             android:textColor="@color/textColorHeading"
             android:textSize="@dimen/text_size_16sp" />
     </RelativeLayout>
