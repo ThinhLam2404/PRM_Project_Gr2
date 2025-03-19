@@ -37,7 +37,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -143,32 +143,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mBinding.layoutSearch.setOnClickListener(this);
         mBinding.layoutFavorite.setOnClickListener(this);
         mBinding.layoutHistory.setOnClickListener(this);
-        mBinding.bottomNavigation.setOnItemSelectedListener({ item ->
-                when (item.itemId) {
-                R.id.nav_home -> {
-            // Đã ở trang Home, không cần làm gì
-            true
-        }
-        R.id.nav_saved -> {
-            GlobalFunction.startActivity(this, SavedActivity::class.java)
-            true
-        }
-        R.id.nav_add_trip -> {
-            GlobalFunction.startActivity(this, AddTripActivity::class.java)
-            true
-        }
-        R.id.nav_notifications -> {
-            GlobalFunction.startActivity(this, NotificationsActivity::class.java)
-            true
-        }
-        R.id.nav_profile -> {
-            GlobalFunction.startActivity(this, ProfileActivity::class.java)
-            true
-        }
-            else -> false
-        }
-        });
-     
+
     }
 
     @Override

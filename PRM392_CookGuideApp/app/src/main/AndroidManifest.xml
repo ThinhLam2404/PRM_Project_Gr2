@@ -19,6 +19,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.MainActivity2"
+            android:exported="false" />
+        <activity
             android:name=".activity.AddTripActivity"
             android:exported="false" />
         <activity
