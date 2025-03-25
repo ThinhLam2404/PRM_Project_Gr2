@@ -175,8 +175,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-
-
                     User userObject = new User(email, password);
                     DataStoreManager.setUser(userObject);
                     Log.d("Login", "User data retrieved: " + userObject.toString());

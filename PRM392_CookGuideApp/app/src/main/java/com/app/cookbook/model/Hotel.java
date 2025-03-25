@@ -7,6 +7,8 @@ public class Hotel implements Serializable {
     private long id;
     private String name;
     private String image;
+    private String url;
+
     private int count;
     private HashMap<String, UserInfo> favorite;
     private HashMap<String, UserInfo> history;
@@ -16,12 +18,13 @@ public class Hotel implements Serializable {
     public Hotel() {
     }
 
-    public Hotel(long id, String name, String image, long locationId, String locationName) {
+    public Hotel(long id, String name, String image, long locationId, String locationName, String url) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.locationId = locationId;
         this.locationName = locationName;
+        this.url = url;
     }
 
     public long getId() {
@@ -48,6 +51,13 @@ public class Hotel implements Serializable {
         this.image = image;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public int getCount() {
         return count;

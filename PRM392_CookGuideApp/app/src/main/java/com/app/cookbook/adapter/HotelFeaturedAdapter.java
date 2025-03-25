@@ -15,8 +15,8 @@ import java.util.List;
 
 public class HotelFeaturedAdapter extends RecyclerView.Adapter<HotelFeaturedAdapter.FoodFeaturedViewHolder> {
 
-    private final List<Hotel> mListHotel;
     public final IOnClickHotelListener mListener;
+    private final List<Hotel> mListHotel;
 
     public HotelFeaturedAdapter(List<Hotel> list, IOnClickHotelListener listener) {
         this.mListHotel = list;
@@ -36,7 +36,7 @@ public class HotelFeaturedAdapter extends RecyclerView.Adapter<HotelFeaturedAdap
         Hotel hotel = mListHotel.get(position);
         if (hotel == null) return;
         GlideUtils.loadUrlBanner(hotel.getImage(), holder.mBinding.imgFood);
-//        holder.mBinding.layoutItem.setOnClickListener(v -> mListener.onClickItemFood(Hotel));
+        holder.mBinding.layoutItem.setOnClickListener(v -> mListener.onClickItemHotel(hotel));
     }
 
     @Override

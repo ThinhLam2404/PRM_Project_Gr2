@@ -11,7 +11,8 @@ import android.widget.Toast;
 import com.app.cookbook.MyApplication;
 import com.app.cookbook.activity.DestinationByLocationActivity;
 import com.app.cookbook.activity.DestinationDetailActivity;
-import com.app.cookbook.model.Destination;
+import com.app.cookbook.activity.HotelDetailActivity;
+import com.app.cookbook.activity.TripDetail;
 import com.app.cookbook.model.Hotel;
 import com.app.cookbook.model.Location;
 import com.app.cookbook.model.UserInfo;
@@ -65,6 +66,26 @@ public class GlobalFunction {
         startActivity(context, DestinationDetailActivity.class, bundle);
     }
 
+    public static void goToHotelDetail(Context context, long foodId) {
+        Bundle bundle = new Bundle();
+        bundle.putLong(Constant.FOOD_ID, foodId);
+        startActivity(context, HotelDetailActivity.class, bundle);
+    }
+
+
+    public static void goToTripDetail(Context context, String tripId) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.TRIP_ID, tripId);
+        startActivity(context, TripDetail.class, bundle);
+    }
+
+    public static void goToBookingHotelDetail(Context context, String bookingHotelId) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.TRIP_ID, bookingHotelId);
+        startActivity(context, TripDetail.class, bundle);
+    }
+
+
     public static void goToDestinationByLocation(Context context, Location location) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constant.OBJECT_CATEGORY, location);
@@ -109,6 +130,29 @@ public class GlobalFunction {
         }
     }
 
+    public static void addToHistory(Context context, Hotel hotel) {
+        if (context == null) return;
+        String userId = FirebaseAuth.getInstance().getCurrentUser() != null ?
+                FirebaseAuth.getInstance().getCurrentUser().getUid() : "null";
+        Log.d("History", "Current user UID: " + userId);
+
+        String userEmail = DataStoreManager.getUser().getEmail();
+        Log.d("userEmail", "onClickFavoriteHotel: " + userEmail);
+        UserInfo userInfo = new UserInfo(System.currentTimeMillis(), userEmail);
+        MyApplication.get(context).hotelDatabaseReference()
+                .child(String.valueOf(hotel.getId()))
+                .child("history")
+                .child(String.valueOf(userInfo.getId()))
+                .setValue(userInfo).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("History", "Added favorite for hotel: " + hotel.getId() + " with ID: " + userInfo.getId());
+                    } else {
+                        Log.e("History", "Failed to add favorite: " + task.getException().getMessage());
+                    }
+                });
+
+    }
+
     private static UserInfo getUserFavoriteHotel(Hotel hotel) {
         UserInfo userInfo = null;
         if (hotel.getFavorite() == null || hotel.getFavorite().isEmpty()) return null;
@@ -122,17 +166,6 @@ public class GlobalFunction {
         return userInfo;
     }
 
-//    public static boolean isFavoriteFood(Destination destination) {
-//        if (destination.getFavorite() == null || destination.getFavorite().isEmpty()) return false;
-//        List<UserInfo> listUsersFavorite = new ArrayList<>(destination.getFavorite().values());
-//        if (listUsersFavorite.isEmpty()) return false;
-//        for (UserInfo userInfo : listUsersFavorite) {
-//            if (DataStoreManager.getUser().getEmail().equals(userInfo.getEmailUser())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     public static boolean isFavoriteHotel(Hotel hotel) {
         if (hotel.getFavorite() == null || hotel.getFavorite().isEmpty()) return false;
@@ -146,9 +179,9 @@ public class GlobalFunction {
         return false;
     }
 
-    public static boolean isHistoryFood(Destination destination) {
-        if (destination.getHistory() == null || destination.getHistory().isEmpty()) return false;
-        List<UserInfo> listUsersHistory = new ArrayList<>(destination.getHistory().values());
+    public static boolean isHistoryFood(Hotel hotel) {
+        if (hotel.getHistory() == null || hotel.getHistory().isEmpty()) return false;
+        List<UserInfo> listUsersHistory = new ArrayList<>(hotel.getHistory().values());
         if (listUsersHistory.isEmpty()) return false;
         for (UserInfo userInfo : listUsersHistory) {
             if (DataStoreManager.getUser().getEmail().equals(userInfo.getEmailUser())) {

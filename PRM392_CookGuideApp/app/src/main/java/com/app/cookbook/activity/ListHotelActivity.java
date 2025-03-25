@@ -66,7 +66,8 @@ public class ListHotelActivity extends BaseActivity {
         mHotelAdapter = new HotelAdapter(mListHotel, new IOnClickHotelListener() {
             @Override
             public void onClickItemHotel(Hotel hotel) {
-//                GlobalFunction.goToDestinationDetail(List.this, hotel.getId());
+                GlobalFunction.goToHotelDetail(ListHotelActivity.this, hotel.getId());
+
             }
 
             @Override

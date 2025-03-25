@@ -143,11 +143,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mBinding.layoutSearch.setOnClickListener(this);
         mBinding.layoutFavorite.setOnClickListener(this);
         mBinding.layoutHistory.setOnClickListener(this);
-
+        mBinding.layoutAddTrip.setOnClickListener(this);
+        mBinding.layoutMyTrip.setOnClickListener(this);
+        mBinding.layoutMyProfile.setOnClickListener(this);
+        mBinding.layoutMyHotel.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.img_toolbar:
                 mBinding.drawerLayout.openDrawer(GravityCompat.START);
@@ -171,19 +175,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.layout_search:
-                Intent intent = new Intent(this, SearchActivity.class);
+                intent = new Intent(this, SearchActivity.class);
                 intent.putExtra("search", "destination");
                 startActivity(intent);
                 break;
-
             case R.id.layout_favorite:
                 GlobalFunction.startActivity(this, FavoriteActivity.class);
                 break;
-
             case R.id.layout_history:
                 GlobalFunction.startActivity(this, HistoryActivity.class);
                 break;
+            case R.id.layout_add_trip:
+                GlobalFunction.startActivity(this, AddTrip.class);
+                break;
 
+            case R.id.layout_my_hotel:
+                intent = new Intent(this, MyHotel.class);
+                intent.putExtra("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                startActivity(intent);
+                break;
+            case R.id.layout_my_trip:
+                intent = new Intent(this, MyTrip.class);
+                intent.putExtra("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                startActivity(intent);
+                break;
+
+            case R.id.layout_my_profile:
+                intent = new Intent(this, MyProfile.class);
+                intent.putExtra("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                startActivity(intent);
+                break;
         }
     }
 
@@ -341,9 +362,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             List<Hotel> listHistory = new ArrayList<>();
             for (Hotel hotel : mListHotel) {
                 // Giả sử Hotel có logic history tương tự Destination, nếu không thì bỏ qua
-                // if (GlobalFunction.isHistoryFood(hotel)) {
-                //     listHistory.add(hotel);
-                // }
+                if (GlobalFunction.isHistoryFood(hotel)) {
+                    listHistory.add(hotel);
+                }
             }
             countHistory = listHistory.size();
         }
@@ -353,9 +374,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void displayListHotelFeatured() {
         HotelFeaturedAdapter hotelFeaturedAdapter = new HotelFeaturedAdapter(loadListHotelFeatured(),
                 new IOnClickHotelListener() {
-                    //                    @Override
+                    @Override
                     public void onClickItemHotel(Hotel hotel) {
-//                        GlobalFunction.goToFoodDetail(MainActivity.this, hotel.getId());
+                        GlobalFunction.goToHotelDetail(MainActivity.this, hotel.getId());
                     }
 
                     @Override
@@ -399,7 +420,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 new IOnClickHotelListener() {
                     @Override
                     public void onClickItemHotel(Hotel hotel) {
-//                        GlobalFunction.goToFoodDetail(MainActivity.this, hotel.getId());
+                        GlobalFunction.goToHotelDetail(MainActivity.this, hotel.getId());
                     }
 
                     @Override

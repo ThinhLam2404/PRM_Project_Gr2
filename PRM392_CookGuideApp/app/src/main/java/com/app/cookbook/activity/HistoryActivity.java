@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.app.cookbook.MyApplication;
 import com.app.cookbook.R;
-import com.app.cookbook.adapter.DestinationAdapter;
+import com.app.cookbook.adapter.HotelAdapter;
 import com.app.cookbook.constant.GlobalFunction;
 import com.app.cookbook.databinding.ActivityHistoryBinding;
-import com.app.cookbook.model.Destination;
+import com.app.cookbook.listener.IOnClickHotelListener;
+import com.app.cookbook.model.Hotel;
+import com.app.cookbook.model.Location;
 import com.app.cookbook.utils.LocaleHelper;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,8 +26,8 @@ import java.util.List;
 public class HistoryActivity extends BaseActivity {
 
     private ActivityHistoryBinding mBinding;
-    private List<Destination> mListDestination;
-    private DestinationAdapter mDestinationAdapter;
+    private List<Hotel> mListHotel;
+    private HotelAdapter mHotelAdapter;
     private ValueEventListener mValueEventListener;
 
     @Override
@@ -53,24 +55,24 @@ public class HistoryActivity extends BaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mBinding.rcvData.setLayoutManager(linearLayoutManager);
 
-        mListDestination = new ArrayList<>();
-//        mDestinationAdapter = new DestinationAdapter(mListDestination, new IOnClickDestinationListener() {
-//            @Override
-//            public void onClickItemDestination(Destination destination) {
-//                GlobalFunction.goToDestinationDetail(HistoryActivity.this, destination.getId());
-//            }
-//
-//            @Override
-//            public void onClickFavoriteDestination(Destination destination, boolean favorite) {
-//                GlobalFunction.onClickFavoriteDestination(HistoryActivity.this, destination, favorite);
-//            }
-//
-//            @Override
-//            public void onClickLocationOfDestination(Location location) {
-//                GlobalFunction.goToDestinationByLocation(HistoryActivity.this, location);
-//            }
-//        });
-        mBinding.rcvData.setAdapter(mDestinationAdapter);
+        mListHotel = new ArrayList<>();
+        mHotelAdapter = new HotelAdapter(mListHotel, new IOnClickHotelListener() {
+            @Override
+            public void onClickItemHotel(Hotel hotel) {
+                GlobalFunction.goToHotelDetail(HistoryActivity.this, hotel.getId());
+            }
+
+            @Override
+            public void onClickFavoriteHotel(Hotel destination, boolean favorite) {
+                GlobalFunction.onClickFavoriteHotel(HistoryActivity.this, destination, favorite);
+            }
+
+            @Override
+            public void onClickLocationOfHotel(Location location) {
+                GlobalFunction.goToDestinationByLocation(HistoryActivity.this, location);
+            }
+        });
+        mBinding.rcvData.setAdapter(mHotelAdapter);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -80,13 +82,13 @@ public class HistoryActivity extends BaseActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 resetListData();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Destination destination = dataSnapshot.getValue(Destination.class);
-                    if (destination == null) return;
-                    if (GlobalFunction.isHistoryFood(destination)) {
-                        mListDestination.add(0, destination);
+                    Hotel hotel = dataSnapshot.getValue(Hotel.class);
+                    if (hotel == null) return;
+                    if (GlobalFunction.isHistoryFood(hotel)) {
+                        mListHotel.add(0, hotel);
                     }
                 }
-                if (mDestinationAdapter != null) mDestinationAdapter.notifyDataSetChanged();
+                if (mHotelAdapter != null) mHotelAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -95,14 +97,14 @@ public class HistoryActivity extends BaseActivity {
                         getString(R.string.msg_get_date_error));
             }
         };
-        MyApplication.get(this).destinationDatabaseReference().addValueEventListener(mValueEventListener);
+        MyApplication.get(this).hotelDatabaseReference().addValueEventListener(mValueEventListener);
     }
 
     private void resetListData() {
-        if (mListDestination == null) {
-            mListDestination = new ArrayList<>();
+        if (mListHotel == null) {
+            mListHotel = new ArrayList<>();
         } else {
-            mListDestination.clear();
+            mListHotel.clear();
         }
     }
 
@@ -110,7 +112,7 @@ public class HistoryActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mValueEventListener != null) {
-            MyApplication.get(this).destinationDatabaseReference().removeEventListener(mValueEventListener);
+            MyApplication.get(this).hotelDatabaseReference().removeEventListener(mValueEventListener);
         }
     }
 }

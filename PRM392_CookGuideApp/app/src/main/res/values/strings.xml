@@ -23,7 +23,11 @@
 
     // Hint
     <string name="hint_email">Nhập email của bạn</string>
+
     <string name="hint_password">Nhập mật khẩu của bạn</string>
+    <string name="hint_phone">Nhập số điện thoại của bạn</string>
+    <string name="hint_address">Nhập địa chỉ của bạn</string>
+
     <string name="hint_password_old">Vui lòng nhập mật khẩu cũ…</string>
     <string name="hint_password_new">Vui lòng nhập mật khẩu mới…</string>
     <string name="hint_password_confirm">Vui lòng xác nhận mật khẩu mới…</string>
@@ -39,6 +43,8 @@
     <string name="label_youtube">Youtube</string>
     <string name="label_zalo">Zalo</string>
     <string name="label_user_name">Email</string>
+    <string name="label_address">Địa chỉ</string>
+
     <string name="label_old_password">Mật khẩu cũ</string>
     <string name="label_new_password">Mật khẩu mới</string>
     <string name="label_confirm_new_password">Xác nhận mật khẩu mới</string>
@@ -50,12 +56,18 @@
     <string name="label_login">Đăng Nhập</string>
     <string name="label_forgot_password">Quên mật khẩu?</string>
     <string name="label_rate_review">Xếp hạng &amp; đánh giá</string>
+    <string name="label_booking">Đặt ngay</string>
 
     <string name="label_sign_out">Đăng xuất</string>
     <string name="label_reset_password">Gửi lại mật khẩu</string>
     <string name="label_what_cook">Hello</string>
     <string name="label_add_trip">Thêm chuyến đi</string>
+    <string name="label_book_hotel">Đặt khách sạn</string>
+
+    <string name="label_my_profile">Thông tin cá nhân</string>
+
     <string name="label_my_trip">Chuyến đi của tôi</string>
+    <string name="label_my_hotel">Khách sạn của tôi</string>
 
     <string name="label_category">Địa điểm</string>
     <string name="label_my_kitchen">Khách sạn của tôi</string>
@@ -68,7 +80,7 @@
     <string name="label_change_password">Đổi mật khẩu</string>
     <string name="label_search">Tìm kiếm</string>
 
-    <string name="label_feedback_name">Họ và tên (*)</string>
+    <string name="label_feedback_name">Họ và tên</string>
     <string name="label_feedback_email">Email</string>
     <string name="label_feedback_phone">Số điện thoại</string>
     <string name="label_feedback_comment">Nội dung (*)</string>
@@ -83,6 +95,7 @@
     <string name="label_count_history">lượt xem</string>
     <string name="label_food_popular">Khách sạn phổ biến</string>
     <string name="label_food_detail">Thông tin chi tiết</string>
+
     <string name="label_rating">Xếp hạng</string>
     <string name="label_review">Đánh giá</string>
     <string name="label_review_note">Đánh giá sẽ được hiển thị công khai</string>
@@ -122,6 +135,9 @@
     <string name="msg_password_require">Vui lòng nhập mật khẩu của bạn</string>
     <string name="msg_email_invalid">Email của bạn không hợp lệ</string>
     <string name="msg_name_require">Vui lòng nhập tên của bạn</string>
+    <string name="msg_phone_require">Vui lòng nhập số điện thoại của bạn</string>
+    <string name="msg_address_require">Vui lòng nhập địa chỉ của bạn</string>
+
     <string name="msg_comment_require">Vui lòng nhập phản hồi của bạn</string>
     <string name="msg_send_feedback_success">Gửi phản hồi thành công, cám ơn bạn rất nhiều!</string>
     <string name="msg_name_food_request">Vui lòng nhập tên món ăn bạn yêu cầu</string>
@@ -148,6 +164,7 @@
     <string name="msg_delete_food_successfully">Xóa món ăn thành công</string>
     <string name="label_comfirm_password">Nhập lại mật khẩu</string>
     <string name="hint_confirm_password">Nhập lại mật khẩu của bạn</string>
+
     <string name="msg_reset_password_fail">Lấy lại mật khẩu không thành công, vui lòng kiểm tra lại</string>
     <string name="msg_passwords_do_not_match">Mật khẩu không khớp</string>
     <string name="msg_email_already_exists">Email đã tồn tại</string>

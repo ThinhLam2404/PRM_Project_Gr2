@@ -9,21 +9,16 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.app.cookbook.MyApplication;
 import com.app.cookbook.R;
-import com.app.cookbook.constant.Constant;
 import com.app.cookbook.constant.GlobalFunction;
 import com.app.cookbook.databinding.ActivityRegisterBinding;
 import com.app.cookbook.model.User;
-import com.app.cookbook.prefs.DataStoreManager;
 import com.app.cookbook.utils.LocaleHelper;
 import com.app.cookbook.utils.StringUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.List;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -43,6 +38,13 @@ public class RegisterActivity extends BaseActivity {
 
 
         initListener();
+        initToolbar();
+    }
+
+
+    private void initToolbar() {
+        mActivityRegisterBinding.layoutToolbar.imgToolbar.setOnClickListener(view -> finish());
+        mActivityRegisterBinding.layoutToolbar.tvToolbarTitle.setText(getString(R.string.label_register));
     }
 
     private void initListener() {
@@ -106,26 +108,75 @@ public class RegisterActivity extends BaseActivity {
         mActivityRegisterBinding.btnRegister.setOnClickListener(v -> onClickValidateRegister());
     }
 
-private void onClickValidateRegister() {
-    if (!isEnableButtonRegister) return;
+    private void onClickValidateRegister() {
+        if (!isEnableButtonRegister) return;
+        String strName = mActivityRegisterBinding.edtName.getText().toString().trim();
+        String strEmail = mActivityRegisterBinding.edtEmail.getText().toString().trim();
+        String strPassword = mActivityRegisterBinding.edtPassword.getText().toString().trim();
+        String strConfirmPassword = mActivityRegisterBinding.edtConfirmPassword.getText().toString().trim();
+        String strPhone = mActivityRegisterBinding.edtPhone.getText().toString().trim();
+        String strAddress = mActivityRegisterBinding.edtAddress.getText().toString().trim();
 
-    String strEmail = mActivityRegisterBinding.edtEmail.getText().toString().trim();
-    String strPassword = mActivityRegisterBinding.edtPassword.getText().toString().trim();
-    String strConfirmPassword = mActivityRegisterBinding.edtConfirmPassword.getText().toString().trim();
+        if (StringUtil.isEmpty(strEmail)) {
+            showToastMessage(this, getString(R.string.msg_email_require));
+        } else if (StringUtil.isEmpty(strName)) {
+            showToastMessage(this, getString(R.string.msg_name_require));
+        } else if (StringUtil.isEmpty(strPassword)) {
+            showToastMessage(this, getString(R.string.msg_password_require));
+        } else if (StringUtil.isEmpty(strPhone)) {
+            showToastMessage(this, getString(R.string.msg_phone_require));
+        } else if (StringUtil.isEmpty(strAddress)) {
+            showToastMessage(this, getString(R.string.msg_address_require));
+        } else if (StringUtil.isEmpty(strConfirmPassword)) {
+            showToastMessage(this, getString(R.string.msg_confirm_password_require));
+        } else if (!strPassword.equals(strConfirmPassword)) {
+            showToastMessage(this, getString(R.string.msg_passwords_do_not_match));
+        } else {
+//            registerUserFirebase(strEmail, strPassword);
+            registerUserFirebase(strEmail, strPassword, strName, strPhone, strAddress);
 
-    if (StringUtil.isEmpty(strEmail)) {
-        showToastMessage(this, getString(R.string.msg_email_require));
-    } else if (StringUtil.isEmpty(strPassword)) {
-        showToastMessage(this, getString(R.string.msg_password_require));
-    } else if (StringUtil.isEmpty(strConfirmPassword)) {
-        showToastMessage(this, getString(R.string.msg_confirm_password_require));
-    } else if (!strPassword.equals(strConfirmPassword)) {
-        showToastMessage(this, getString(R.string.msg_passwords_do_not_match));
-    } else {
-        registerUserFirebase(strEmail, strPassword);
+        }
     }
-}
 
+    private void registerUserFirebase(String email, String password, String name, String phone, String address) {
+        showProgressDialog(true);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    showProgressDialog(false);
+                    if (task.isSuccessful()) {
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        Log.d("firebaseUser", "registerUserFirebase: " + firebaseUser);
+                        if (firebaseUser != null) {
+                            // Gửi email xác thực
+                            firebaseUser.sendEmailVerification()
+                                    .addOnCompleteListener(emailTask -> {
+                                        if (emailTask.isSuccessful()) {
+                                            // Thông báo gửi email xác thực thành công
+                                            Toast.makeText(RegisterActivity.this,
+                                                    "Vui lòng kiểm tra email để xác thực tài khoản!",
+                                                    Toast.LENGTH_LONG).show();
+                                            // Lưu thông tin người dùng (đặt cờ admin nếu cần)
+                                            User userObject = new User(firebaseUser.getEmail(), password, name, phone, address);
+                                            Log.d("USER", "registerUserFirebase: " + userObject);
+                                            // Lưu thông tin người dùng vào Firebase Realtime Database
+                                            saveUserToDatabase(userObject);
+                                            // Chuyển hướng về trang đăng nhập sau khi đăng ký
+                                            firebaseAuth.signOut(); // Đăng xuất người dùng để họ không đăng nhập ngay lập tức
+                                            finish();
+                                        } else {
+                                            // Thông báo lỗi khi gửi email
+                                            Toast.makeText(RegisterActivity.this,
+                                                    "Gửi email xác thực thất bại.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    } else {
+                        showToastMessage(this, getString(R.string.msg_email_already_exists));
+                    }
+                });
+    }
 
     private void registerUserFirebase(String email, String password) {
         showProgressDialog(true);
@@ -137,7 +188,6 @@ private void onClickValidateRegister() {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         if (firebaseUser != null) {
-
                             // Gửi email xác thực
                             firebaseUser.sendEmailVerification()
                                     .addOnCompleteListener(emailTask -> {
@@ -149,7 +199,8 @@ private void onClickValidateRegister() {
 
                                             // Lưu thông tin người dùng (đặt cờ admin nếu cần)
                                             User userObject = new User(firebaseUser.getEmail(), password);
-                                            Log.d("USER", "registerUserFirebase: "+userObject);
+
+                                            Log.d("USER", "registerUserFirebase: " + userObject);
 //
                                             // Lưu thông tin người dùng vào Firebase Realtime Database
                                             saveUserToDatabase(userObject);
@@ -172,20 +223,23 @@ private void onClickValidateRegister() {
     }
 
 
-private void saveUserToDatabase(User user) {
-    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("user"); // Dùng trực tiếp getReference()
-    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    userRef.child(userId).setValue(user)
-            .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Log.d("Register", "User data saved successfully for UID: " + userId);
-                } else {
-                    Log.e("Register", "Failed to save user data: " + task.getException().getMessage());
-                }
-            });
-}
+    private void saveUserToDatabase(User user) {
+
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("user"); // Dùng trực tiếp getReference()
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        userRef.child(userId).setValue(user)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Register", "User data saved successfully for UID: " + userId);
+                    } else {
+                        Log.e("Register", "Failed to save user data: " + task.getException().getMessage());
+                    }
+                });
+    }
+
     private void goToMainActivity() {
-            GlobalFunction.startActivity(RegisterActivity.this, MainActivity.class);
+        GlobalFunction.startActivity(RegisterActivity.this, MainActivity.class);
         finishAffinity();
     }
 }

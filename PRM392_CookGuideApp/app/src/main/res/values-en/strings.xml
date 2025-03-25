@@ -23,6 +23,9 @@
     // Hint
     <string name="hint_email">Enter your email</string>
     <string name="hint_password">Enter your password</string>
+    <string name="hint_phone">Enter your phone number</string>
+    <string name="hint_address">Enter your address</string>
+
     <string name="hint_confirm_password">Enter your password again</string>
     <string name="hint_password_old">Please enter your old password...</string>
     <string name="hint_password_new">Please enter your new password...</string>
@@ -39,6 +42,8 @@
     <string name="label_youtube">Youtube</string>
     <string name="label_zalo">Zalo</string>
     <string name="label_user_name">Email</string>
+    <string name="label_address">Address</string>
+
     <string name="label_old_password">Old Password</string>
     <string name="label_new_password">New Password</string>
     <string name="label_confirm_new_password">Confirm New Password</string>
@@ -50,11 +55,16 @@
     <string name="label_login">Login</string>
     <string name="label_forgot_password">Forgot password?</string>
     <string name="label_rate_review">Rating &amp; Review</string>
+    <string name="label_booking">Book now</string>
 
     <string name="label_sign_out">Sign Out</string>
     <string name="label_reset_password">Reset Password</string>
     <string name="label_what_cook">Hello</string>
     <string name="label_add_trip">Add new trip</string>
+    <string name="label_my_profile">My profile</string>
+    <string name="label_my_hotel">My hotel</string>
+    <string name="label_book_hotel">Booking hotel</string>
+
     <string name="label_my_trip">My trip plan</string>
     <string name="label_category">Location</string>
     <string name="label_my_kitchen">My Hotel</string>
@@ -67,7 +77,7 @@
     <string name="label_change_password">Change Password</string>
     <string name="label_search">Search</string>
 
-    <string name="label_feedback_name">Full Name (*)</string>
+    <string name="label_feedback_name">Full Name</string>
     <string name="label_feedback_email">Email</string>
     <string name="label_feedback_phone">Phone Number</string>
     <string name="label_feedback_comment">Content (*)</string>
@@ -123,6 +133,9 @@
     <string name="msg_name_require">Please enter your name</string>
     <string name="msg_comment_require">Please enter your feedback</string>
     <string name="msg_send_feedback_success">Feedback sent successfully, thank you!</string>
+    <string name="msg_phone_require">Please enter your phone</string>
+    <string name="msg_address_require">Please enter your address</string>
+
     <string name="msg_name_food_request">Please enter the name of the dish you are requesting</string>
     <string name="msg_send_request_food_success">Cooking guide request sent successfully!</string>
     <string name="msg_send_review_success">Review sent successfully</string>

@@ -46,6 +46,7 @@
                 android:layout_width="54dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                
                 android:text="@string/btn_change_language"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="11sp"

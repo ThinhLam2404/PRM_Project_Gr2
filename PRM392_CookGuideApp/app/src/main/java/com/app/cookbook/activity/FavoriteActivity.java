@@ -59,7 +59,7 @@ public class FavoriteActivity extends BaseActivity {
         mHotelAdapter = new HotelAdapter(mListHotel, new IOnClickHotelListener() {
             @Override
             public void onClickItemHotel(Hotel hotel) {
-//                GlobalFunction.goToDestinationDetail(FavoriteActivity.this, hotel.getId());
+                GlobalFunction.goToHotelDetail(FavoriteActivity.this, hotel.getId());
             }
 
             @Override

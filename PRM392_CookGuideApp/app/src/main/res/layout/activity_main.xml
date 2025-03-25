@@ -176,18 +176,6 @@
                     android:focusable="false"
                     android:nestedScrollingEnabled="false" />
 
-
-                <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/bottom_navigation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:background="@android:color/white"
-
-                    app:itemIconTint="@color/custom_bottom_ic_navigation"
-                    app:itemTextColor="@color/custom_bottom_navigation"
-                   
-                    app:menu="@menu/bottom_navigation" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
@@ -319,6 +307,32 @@
                     android:textSize="@dimen/text_size_16sp" />
 
                 <RelativeLayout
+                    android:id="@+id/layout_my_hotel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+                    <ImageView
+                        android:id="@+id/image_my_hotel"
+                        android:layout_width="@dimen/define_dimen_20"
+                        android:layout_height="@dimen/define_dimen_20"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/define_dimen_12"
+                        android:src="@drawable/hotel" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/image_my_hotel"
+                        android:padding="@dimen/define_dimen_12"
+                        android:text="@string/label_my_hotel"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/layout_favorite"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -342,6 +356,7 @@
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/text_size_14sp" />
 
+
                     <TextView
                         android:id="@+id/tv_count_favorite"
                         android:layout_width="wrap_content"
@@ -359,6 +374,7 @@
                         android:textSize="@dimen/text_size_10sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
+
 
                 <RelativeLayout
                     android:id="@+id/layout_history"
@@ -450,6 +466,32 @@
                     android:text="@string/label_account"
                     android:textColor="@color/red"
                     android:textSize="@dimen/text_size_16sp" />
+
+                <RelativeLayout
+                    android:id="@+id/layout_my_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/image_my_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/define_dimen_12"
+                        android:src="@drawable/ic_menu_contact" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/image_my_profile"
+                        android:padding="@dimen/define_dimen_12"
+                        android:text="@string/label_my_profile"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_change_password"

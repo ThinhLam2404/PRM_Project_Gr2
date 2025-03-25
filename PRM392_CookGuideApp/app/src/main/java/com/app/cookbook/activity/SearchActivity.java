@@ -148,6 +148,8 @@ public class SearchActivity extends BaseActivity {
             mAdapter = new HotelAdapter((List<Hotel>) (List<?>) mListData, new IOnClickHotelListener() {
                 @Override
                 public void onClickItemHotel(Hotel hotel) {
+                    GlobalFunction.goToHotelDetail(SearchActivity.this, hotel.getId());
+
                 }
 
                 @Override

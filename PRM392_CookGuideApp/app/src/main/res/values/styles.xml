@@ -1,19 +1,11 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:listDivider">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/white</item>
-       
-    </style>
 
-
-    <style name="CustomBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="itemTextColor">@color/custom_bottom_navigation</item>
-        <item name="itemIconTint">@color/custom_bottom_ic_navigation</item>
-        <item name="android:background">@android:color/white</item>
-        <item name="colorOnSurface">@android:color/black</item>
     </style>
 
 

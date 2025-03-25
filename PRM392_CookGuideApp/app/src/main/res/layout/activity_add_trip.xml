@@ -1,136 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="#fff"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/define_dimen_30">
 
+    <include
+        android:id="@+id/layout_toolbar"
+        layout="@layout/layout_toolbar" />
+
+    <!-- Header with Icon and Title -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:orientation="vertical">
 
+        <!-- Icon (Replace with your drawable) -->
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/img_avt" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/addtrip" />
 
+        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Let's Get Start Plan New Trip"
-            android:textColor="@color/black"
-            android:textSize="@dimen/define_dimen_30" />
+            android:text="LET'S GET START A NEW TRIP"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
+    <!-- Where to? -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="WHERE TO?"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <AutoCompleteTextView
+        android:id="@+id/editTextLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_white_corner_6_border_gray"
+        android:completionThreshold="1"
+        android:drawableStart="@android:drawable/ic_menu_myplaces"
+        android:drawablePadding="8dp"
+        android:dropDownHeight="wrap_content"
+        android:hint="@string/hint_food_name"
+        android:padding="12dp" />
+    <!-- Trip Date -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="TRIP DATE"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editTextTripDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_white_corner_6_border_gray"
+
+        android:drawableStart="@android:drawable/ic_menu_my_calendar"
+        android:drawablePadding="8dp"
+        android:hint="set date"
+        android:padding="12dp" />
+
+    <!-- Add Guest List -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="ADD GUEST LIST"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_white_corner_6_border_gray"
+
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageButton
+            android:id="@+id/buttonDecreaseGuest"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_minus" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewGuestCount"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Where to?" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/define_dimen_20"
-                android:layout_height="@dimen/define_dimen_20"
-                android:src="@drawable/img_avt" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/buttonIncreaseGuest"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@android:drawable/ic_input_add"
+            app:tint="#FFFFFF" />
     </LinearLayout>
 
-    <LinearLayout
+    <!-- Trip Name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="TRIP NAME"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editTextTripName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/bg_white_corner_6_border_gray"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trip date" />
+        android:hint="type name"
+        android:padding="12dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/define_dimen_20"
-                android:layout_height="@dimen/define_dimen_20"
-                android:src="@drawable/img_avt" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add guest list" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/define_dimen_20"
-                android:layout_height="@dimen/define_dimen_20"
-                android:src="@drawable/img_avt" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trip name" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/define_dimen_20"
-                android:layout_height="@dimen/define_dimen_20"
-                android:src="@drawable/img_avt" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </LinearLayout>
-
+    <!-- Start Plan Button -->
     <Button
+        android:id="@+id/buttonStartPlan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Let's Start your Plan" />
+        android:backgroundTint="#1A2526"
+        android:padding="12dp"
+        android:text="LET'S START YOUR PLAN"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
 </LinearLayout>

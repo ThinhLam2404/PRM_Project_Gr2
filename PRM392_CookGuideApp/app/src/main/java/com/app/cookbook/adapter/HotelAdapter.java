@@ -52,8 +52,8 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             holder.mBinding.imgFavorite.setImageResource(R.drawable.ic_unfavorite);
         }
         holder.mBinding.imgFavorite.setOnClickListener(v -> mListener.onClickFavoriteHotel(hotel, !isFavorite));
-//        holder.mBinding.layoutImage.setOnClickListener(v -> mListener.onClickItemHotel(hotel));
-//        holder.mBinding.layoutInfo.setOnClickListener(v -> mListener.onClickItemHotel(hotel));
+        holder.mBinding.layoutImage.setOnClickListener(v -> mListener.onClickItemHotel(hotel));
+        holder.mBinding.layoutInfo.setOnClickListener(v -> mListener.onClickItemHotel(hotel));
 
         holder.mBinding.tvCategory.setOnClickListener(v -> mListener.onClickLocationOfHotel(
                 new Location(hotel.getLocationId(), hotel.getLocationName())));

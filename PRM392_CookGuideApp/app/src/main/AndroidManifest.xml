@@ -19,10 +19,29 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activity.MainActivity2"
+            android:name=".activity.BookingHotelDetail"
             android:exported="false" />
         <activity
-            android:name=".activity.AddTripActivity"
+            android:name=".activity.MyHotel"
+            android:exported="false" />
+        <activity
+            android:name=".activity.TripDetail"
+            android:exported="false" />
+        <activity
+            android:name=".activity.BookingHotel"
+            android:exported="false" />
+        <activity
+            android:name=".activity.HotelDetailActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.MyProfile"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MyTrip"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AddTrip"
             android:exported="false" />
         <activity
             android:name=".activity.SplashActivity"
